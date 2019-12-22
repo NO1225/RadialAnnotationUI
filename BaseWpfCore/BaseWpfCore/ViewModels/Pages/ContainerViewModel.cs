@@ -153,10 +153,11 @@ namespace BaseWpfCore
         /// 
         private void AddRadarGraphicToBackground()
         {
-            // create new RadarGraphic
+            // create new radar graphic based on the base circular 
+            // graphic view model
             RadarGraphic = new BaseRadialGraphicViewModel();
 
-            // Create Crosshairs out of RadialLines
+            // Create crosshairs graphic out of RadialLines view model
             var crosshairsGraphic = new RadialLinesViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -175,9 +176,10 @@ namespace BaseWpfCore
             // generate graphic items for crosshairs
             crosshairsGraphic.PopulateRadialGraphicSegmentsProperty();
 
-            // Add crosshairs to RadarGraphics
+            // Add crosshairs graphic to radar graphics
             RadarGraphic.AddGraphics(crosshairsGraphic);
 
+            // generate graphic for innermost circle of the radar
             var innerRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -189,10 +191,13 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
+            // populate the pieces to build the graphic
             innerRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
+            // add the innerRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(innerRadarCircle);
 
+            // generate graphic for middle circle of the radar
             var middleRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -202,10 +207,13 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
+            // populate the pieces to build the graphic
             middleRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
+            // add the middleRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(middleRadarCircle);
 
+            // generate graphic for outermost circle of the radar
             var outsideRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -215,10 +223,13 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
+            // populate the pieces to build the graphic
             outsideRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
+            // add the outesideRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(outsideRadarCircle);
 
+            // add the complete radar graphic to the background
             BackGround.AddGraphics(RadarGraphic);
         }
 
