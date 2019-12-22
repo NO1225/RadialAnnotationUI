@@ -118,7 +118,7 @@ namespace BaseWpfCore
             AddRadarGraphicToBackground();
 
             // add foreground stuff to MainBadges
-            AddForgroundStuffToMainBadges();
+            AddForgroundGraphicStuff();
         }
 
         ///
@@ -236,7 +236,7 @@ namespace BaseWpfCore
         ///
         /// Add Foreground stuff to MainBadges
         /// 
-        public void AddForgroundStuffToMainBadges()
+        public void AddForgroundGraphicStuff()
         {
             /// 
             /// Create Foreground Graphics
