@@ -21,7 +21,7 @@
             <!-- BackGround -->
             <ItemsControl 
                 DataContext="{Binding BackGround}"
-                ItemsSource="{Binding Annotations}">
+                ItemsSource="{Binding RadialGraphicSegments}">
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -55,7 +55,7 @@
             <ItemsControl 
                 DataContext="{Binding MainBadges}"
                 Grid.Row="1"
-                ItemsSource="{Binding Annotations}">
+                ItemsSource="{Binding RadialGraphicSegments}">
 
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

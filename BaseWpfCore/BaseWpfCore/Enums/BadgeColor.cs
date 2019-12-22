@@ -19,6 +19,7 @@ namespace BaseWpfCore
         Pink = 5,
 
         Red = 6,
+
         Green = 7,
     }
 }

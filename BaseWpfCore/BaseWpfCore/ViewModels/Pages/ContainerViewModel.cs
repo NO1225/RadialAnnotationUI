@@ -14,18 +14,34 @@ namespace BaseWpfCore
 
         #region Public Properties
 
-        public RadialAnnotationContainerViewModel BackGround { get; set; }
+        // The background graphics for the infographic
+        public BackgroundRadialGraphicViewModel BackGround { get; set; }
 
-        public RadialAnnotationContainerViewModel Radar { get; set; }
+        // The foreground graphics for the infographic
+        // Todo: This isn't being used yet, it is converted
+        // back to MainBadges currently at the end of the refresh() method
+        public ForegroundRadialGraphicViewModel ForeGround { get; set; }
 
-        public RadialAnnotationContainerViewModel MainBadges { get; set; }
+        // The radar image for the background
+        public BaseRadialGraphicViewModel Radar { get; set; }
 
-        public RadialAnnotationContainerViewModel ShortActings { get; set; }
+        // The outside ring colored polygons that show glucose readings,
+        // Caloric intake and the background is colored to indicate if the 
+        // glucose reading is within what range: low, good, high, dangerously
+        // high
+        // Todo: currently this includes the center circle and also the 
+        // 'arm of the clock' graphic.  It should probably be seperated
+        // but I didn't want to screw up the wpf ui
+        public BaseRadialGraphicViewModel MainBadges { get; set; }
 
-        public RadialAnnotationContainerViewModel LongActings { get; set; }
+        // The outside LineArcs that represent short term insullin availability
+        public BaseRadialGraphicViewModel ShortActings { get; set; }
+
+        // The inside lineArcs that represent long term insullin availability 
+        public BaseRadialGraphicViewModel LongActings { get; set; }
 
         public double RadarDiameter { get; set; } = 120 * 2;
-        
+
         public double ContainerWidth { get; set; } = 400;
 
         public double ContainerHeight { get; set; } = 400;
@@ -38,6 +54,7 @@ namespace BaseWpfCore
 
         #region Public Commands
 
+        // The command to generate the infographic
         public ICommand RefreshCommand { get; set; }
 
         #endregion
@@ -47,8 +64,10 @@ namespace BaseWpfCore
         public ContainerViewModel()
         {
 
+            // The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
 
+            // Calls the refresh method to generate the infographic
             Refresh();
         }
 
@@ -56,26 +75,56 @@ namespace BaseWpfCore
 
         #region Helping Methods
 
+        /// <summary>
+        /// The method to generate all the view models that are used in
+        /// the WPF UI controls and pages
+        /// </summary>
         private void Refresh()
         {
-            BackGround = new RadialAnnotationContainerViewModel()
+            // Create a new background property
+            BackGround = new BackgroundRadialGraphicViewModel();
+
+            // Add outside ring to background
+            AddWhiteOutsideRingToBackground();
+
+            // add radar graphic to background
+            AddRadarGraphicToBackground();
+
+            // add foreground stuff to MainBadges
+            AddForgroundStuffToMainBadges();
+        }
+
+        ///
+        /// Add the white ring to be used under the badges
+        /// to the background
+        /// Todo: This should probably be black
+        /// 
+        private void AddWhiteOutsideRingToBackground()
+        {
+            var whiteBackgroundRing = new SolidCompleteRingViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
                 NumberOfGroups = 2,
                 NumberOfChildrenInGroup = 1,
-                ChildClearance = 0,
-                GroupClearance = 0,
                 InnerRadius = 121,
                 OuterRadius = 169,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                BadgeColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.White,
             };
 
-            BackGround.Refresh();
+            whiteBackgroundRing.PopulateRadialGraphicSegmentsProperty();
 
-            var radar = new RadialAnnotationContainerViewModel()
+            BackGround.AddGraphics(whiteBackgroundRing);
+        }
+
+        ///
+        /// Add rador graphic to background
+        /// 
+        private void AddRadarGraphicToBackground()
+        {
+            Radar = new BaseRadialGraphicViewModel();
+
+            var crosshairs = new RadialLinesViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -86,83 +135,72 @@ namespace BaseWpfCore
                 InnerRadius = 30,
                 OuterRadius = 120,
                 FullAngleFrom = -46,
-                FullAngleTo = 360-46,
-                BadgeColor = BadgeColor.Green,
+                FullAngleTo = 360 - 46,
+                GraphicsColor = BadgeColor.Green,
             };
 
-            radar.Refresh();
+            crosshairs.PopulateRadialGraphicSegmentsProperty();
 
-            foreach(AnnotationViewModel annotation in radar.Annotations)
-            {
-                BackGround.Annotations.Add(annotation);
-            }
-            radar = new RadialAnnotationContainerViewModel()
+            Radar.AddGraphics(crosshairs);
+
+            //BackGround.AddGraphics(crosshairs);
+
+            var innerRadarCircle = new SolidCompleteLineCircleViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
+
                 InnerRadius = 30,
                 OuterRadius = 33,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                BadgeColor = BadgeColor.Green,
+
+                GraphicsColor = BadgeColor.Green,
             };
 
-            radar.Refresh();
+            innerRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            foreach (AnnotationViewModel annotation in radar.Annotations)
-            {
-                BackGround.Annotations.Add(annotation);
-            }
-            
-            radar = new RadialAnnotationContainerViewModel()
+            Radar.AddGraphics(innerRadarCircle);
+
+            var middleRadarCircle = new SolidCompleteLineCircleViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
                 InnerRadius = 60,
                 OuterRadius = 63,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                BadgeColor = BadgeColor.Green,
+                GraphicsColor = BadgeColor.Green,
             };
 
-            radar.Refresh();
+            middleRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            foreach (AnnotationViewModel annotation in radar.Annotations)
-            {
-                BackGround.Annotations.Add(annotation);
-            }
-            
-            radar = new RadialAnnotationContainerViewModel()
+            Radar.AddGraphics(middleRadarCircle);
+
+            var outsideRadarCircle = new SolidCompleteLineCircleViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
                 InnerRadius = 90,
                 OuterRadius = 93,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                BadgeColor = BadgeColor.Green,
+                GraphicsColor = BadgeColor.Green,
             };
 
-            radar.Refresh();
+            outsideRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            foreach (AnnotationViewModel annotation in radar.Annotations)
-            {
-                BackGround.Annotations.Add(annotation);
-            }
+            Radar.AddGraphics(outsideRadarCircle);
 
-            MainBadges = new RadialAnnotationContainerViewModel()
+            BackGround.AddGraphics(Radar);
+        }
+
+        ///
+        /// Add Foreground stuff to MainBadges
+        /// 
+        public void AddForgroundStuffToMainBadges()
+        {
+            /// 
+            /// Create Foreground Graphics
+            /// 
+
+            ForeGround = new ForegroundRadialGraphicViewModel();
+
+            MainBadges = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -174,22 +212,22 @@ namespace BaseWpfCore
                 OuterRadius = 170,
                 FullAngleFrom = 0,
                 FullAngleTo = 360,
-                BadgeColor = BadgeColor.Blue,
+                GraphicsColor = (BadgeColor)BadgeColor.Blue,
             };
 
-            MainBadges.Refresh();
+            MainBadges.PopulateRadialGraphicSegmentsProperty();
 
             var rand = new Random();
 
-            MainBadges.Annotations.Where(a => a.Angle > 30).ToList().ForEach(a => 
+            MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
             {
                 a.BadgeColor = (BadgeColor)rand.Next(2, 7);
                 a.GlucoseLevel = ((int)a.BadgeColor).ToString("F1");
                 a.CarbAmount = ((int)a.BadgeColor).ToString();
-                }
+            }
             );
 
-            ShortActings = new RadialAnnotationContainerViewModel()
+            ShortActings = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -201,12 +239,12 @@ namespace BaseWpfCore
                 OuterRadius = 100,
                 FullAngleFrom = 0,
                 FullAngleTo = 180,
-                BadgeColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.White,
             };
 
-            ShortActings.Refresh();
+            ShortActings.PopulateRadialGraphicSegmentsProperty();
 
-            LongActings = new RadialAnnotationContainerViewModel()
+            LongActings = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -218,68 +256,53 @@ namespace BaseWpfCore
                 OuterRadius = 70,
                 FullAngleFrom = 30,
                 FullAngleTo = 270,
-                BadgeColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.White,
             };
 
-            LongActings.Refresh();
+            LongActings.PopulateRadialGraphicSegmentsProperty();
 
-            foreach(AnnotationViewModel annotationViewModel in ShortActings.Annotations)
-            {
-                MainBadges.Annotations.Add(annotationViewModel);
-            }
+            ForeGround.AddGraphics(MainBadges);
+            ForeGround.AddGraphics(ShortActings);
+            ForeGround.AddGraphics(LongActings);
 
-            foreach(AnnotationViewModel annotationViewModel in LongActings.Annotations)
-            {
-                MainBadges.Annotations.Add(annotationViewModel);
-            }
-
-            var mainNeedle = new RadialAnnotationContainerViewModel()
+            var mainNeedle = new SolidFilledArcPieFromCenter()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 1,
-                ChildClearance = 0,
-                GroupClearance = 0,
-                InnerRadius = 0,
                 OuterRadius = 120,
                 FullAngleFrom = -1,
                 FullAngleTo = 1,
-                BadgeColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.White,
             };
 
-            mainNeedle.Refresh();
+            mainNeedle.PopulateRadialGraphicSegmentsProperty();
 
-            MainBadges.Annotations.Add(mainNeedle.Annotations.First());
+            ForeGround.RadialGraphicSegments.Add(mainNeedle.RadialGraphicSegments.First());
 
-            mainNeedle = new RadialAnnotationContainerViewModel()
+            var centerCircle = new SolidCompleteFilledCircleViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
-                InnerRadius = 0,
                 OuterRadius = 10,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                BadgeColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.White,
             };
 
-            mainNeedle.Refresh();
+            centerCircle.PopulateRadialGraphicSegmentsProperty();
 
-            foreach (AnnotationViewModel annotationViewModel in mainNeedle.Annotations)
-            {
-                MainBadges.Annotations.Add(annotationViewModel);
-            }
-            //MainBadges.Refresh();
+            ForeGround.AddGraphics(centerCircle);
+
+            MainBadges = ForeGround;
         }
 
+        /// <summary>
+        /// converts the angle from a double to a radian
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         private double DegreeToRadian(double angle)
         {
             return Math.PI * angle / 180.0;
-        } 
+        }
 
         #endregion
     }

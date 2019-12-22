@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace BaseWpfCore
 {
-    public class AnnotationViewModel
+    public class BaseRadialGraphicSegmentViewModel
     {
         #region Public Properties
 
@@ -31,13 +31,15 @@ namespace BaseWpfCore
         public string CarbAmount { get; set; }
 
         /// <summary>
-        /// The angle at which this annotation should be ratated
+        /// The angle at which this annotation should be rotated
         /// </summary>
-        public double Angle { get; private set; }
+        public double Angle { get; set; }
 
-        public double GlucoseTextAngle { get
+        public double GlucoseTextAngle
+        {
+            get
             {
-                if(Angle>0&&Angle<180)
+                if (Angle > 0 && Angle < 180)
                 {
                     return 270;
                 }
@@ -45,12 +47,14 @@ namespace BaseWpfCore
                 {
                     return 90;
                 }
-            } 
+            }
         }
 
-        public double CarbTextAngle { get
+        public double CarbTextAngle
+        {
+            get
             {
-                if(Angle>90&&Angle<270)
+                if (Angle > 90 && Angle < 270)
                 {
                     return 180;
                 }
@@ -58,20 +62,19 @@ namespace BaseWpfCore
                 {
                     return 0;
                 }
-            } 
+            }
         }
 
         public string ActingAmount { get; set; }
 
-        public double AcringTextAngle { get; set; }
-
-        public BadgeColor BadgeColor { get; set; } 
+        public double ActingTextAngle { get; set; }
+        public BadgeColor BadgeColor { get; set; }
 
         #endregion
 
         #region Default Contructor
 
-        public AnnotationViewModel(
+        public BaseRadialGraphicSegmentViewModel(
             double angle,
             string text,
             double width,

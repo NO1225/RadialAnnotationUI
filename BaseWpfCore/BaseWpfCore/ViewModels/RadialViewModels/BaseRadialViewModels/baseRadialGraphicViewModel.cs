@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace BaseWpfCore
 {
-    public class RadialAnnotationContainerViewModel : BaseViewModel
+    public class BaseRadialGraphicViewModel : BaseViewModel
     {
 
         #region Public Properties
@@ -16,7 +16,7 @@ namespace BaseWpfCore
         /// <summary>
         /// The annotation around the handle
         /// </summary>
-        public ObservableCollection<AnnotationViewModel> Annotations { get; set; }
+        public ObservableCollection<BaseRadialGraphicSegmentViewModel> RadialGraphicSegments { get; set; }
 
         public double ContainerWidth { get; set; } = 400;
 
@@ -38,7 +38,7 @@ namespace BaseWpfCore
 
         public int NumberOfChildrenInGroup { get; set; } = 5;
 
-        public BadgeColor BadgeColor { get; set; }
+        public BadgeColor GraphicsColor { get; set; }
 
         #endregion
 
@@ -68,28 +68,36 @@ namespace BaseWpfCore
 
         #region Public Commands
 
-        public ICommand RefreshCommand { get; set; }
+        public ICommand PopulateRadialGraphicSegmentsPropertyCommand { get; set; }
 
         #endregion
 
         #region Default Constructor
 
-        public RadialAnnotationContainerViewModel()
+        public BaseRadialGraphicViewModel()
         {
 
-            RefreshCommand = new RelayCommand(Refresh);
+            PopulateRadialGraphicSegmentsPropertyCommand = new RelayCommand(PopulateRadialGraphicSegmentsProperty);
 
-            Refresh();
+            PopulateRadialGraphicSegmentsProperty();
         }
 
         #endregion
 
+        public void AddGraphics(BaseRadialGraphicViewModel graphics)
+        {
+            foreach (BaseRadialGraphicSegmentViewModel graphic in graphics.RadialGraphicSegments)
+            {
+                RadialGraphicSegments.Add(graphic);
+            }
+        }
+
         #region Helping Methods
 
-        public void Refresh()
+        public void PopulateRadialGraphicSegmentsProperty()
         {
             // Initiating the annotation
-            Annotations = new ObservableCollection<AnnotationViewModel>();
+            RadialGraphicSegments = new ObservableCollection<BaseRadialGraphicSegmentViewModel>();
 
             this.groupAngleSpan = ((this.FullAngleTo - this.FullAngleFrom) / this.NumberOfGroups) - this.GroupClearance * 2;
 
@@ -139,8 +147,9 @@ namespace BaseWpfCore
             {
                 for (double j = i; j - (i + this.groupAngleSpan) < -.001; j += this.childAngleSpan + 2 * this.ChildClearance)
                 {
-                    Annotations.Add(
-                        new AnnotationViewModel(
+                    // Todo: change graphic color below for badge color
+                    RadialGraphicSegments.Add(
+                        new BaseRadialGraphicSegmentViewModel(
                             angle: j + this.childAngleSpan / 2 + this.ChildClearance,
                             //text: (j / 6).ToString(),
                             text: null,
@@ -152,7 +161,7 @@ namespace BaseWpfCore
                             this.childTop,
                             this.childPoints,
                             this.childSizes,
-                            this.BadgeColor
+                            this.GraphicsColor
                             )
                         );
                 }
@@ -162,7 +171,7 @@ namespace BaseWpfCore
         private double DegreeToRadian(double angle)
         {
             return Math.PI * angle / 180.0;
-        } 
+        }
 
         #endregion
     }
