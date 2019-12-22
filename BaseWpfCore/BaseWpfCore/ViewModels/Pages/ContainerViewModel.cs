@@ -29,7 +29,7 @@ namespace BaseWpfCore
         public ForegroundRadialGraphicViewModel ForeGround { get; set; }
 
         // The radar image for the background
-        public BaseRadialGraphicViewModel Radar { get; set; }
+        public BaseRadialGraphicViewModel RadarGraphic { get; set; }
 
         // The outside ring colored polygons that show glucose readings,
         // Caloric intake and the background is colored to indicate if the 
@@ -122,12 +122,13 @@ namespace BaseWpfCore
         }
 
         ///
-        /// Add the white ring to be used under the badges
+        /// Method to: Add the white ring to be used under the badges
         /// to the background
         /// Todo: This should probably be black
         /// 
         private void AddWhiteOutsideRingToBackground()
         {
+            // create a ring given the inner and out radii and assign a color
             var whiteBackgroundRing = new RingFullFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -139,19 +140,24 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.White,
             };
 
+            // Populate the ring by adding each ring segment to each other 
+            // with varying x and y values
             whiteBackgroundRing.PopulateRadialGraphicSegmentsProperty();
 
+            // Add the Ring to the Background
             BackGround.AddGraphics(whiteBackgroundRing);
         }
 
         ///
-        /// Add rador graphic to background
+        /// Method to: Add rador graphic to background
         /// 
         private void AddRadarGraphicToBackground()
         {
-            Radar = new BaseRadialGraphicViewModel();
+            // create new RadarGraphic
+            RadarGraphic = new BaseRadialGraphicViewModel();
 
-            var crosshairs = new RadialLinesViewModel()
+            // Create Crosshairs out of RadialLines
+            var crosshairsGraphic = new RadialLinesViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -166,11 +172,11 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
-            crosshairs.PopulateRadialGraphicSegmentsProperty();
+            // generate graphic items for crosshairs
+            crosshairsGraphic.PopulateRadialGraphicSegmentsProperty();
 
-            Radar.AddGraphics(crosshairs);
-
-            //BackGround.AddGraphics(crosshairs);
+            // Add crosshairs to RadarGraphics
+            RadarGraphic.AddGraphics(crosshairsGraphic);
 
             var innerRadarCircle = new CircleFullLineViewModel()
             {
@@ -185,7 +191,7 @@ namespace BaseWpfCore
 
             innerRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            Radar.AddGraphics(innerRadarCircle);
+            RadarGraphic.AddGraphics(innerRadarCircle);
 
             var middleRadarCircle = new CircleFullLineViewModel()
             {
@@ -198,7 +204,7 @@ namespace BaseWpfCore
 
             middleRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            Radar.AddGraphics(middleRadarCircle);
+            RadarGraphic.AddGraphics(middleRadarCircle);
 
             var outsideRadarCircle = new CircleFullLineViewModel()
             {
@@ -211,9 +217,9 @@ namespace BaseWpfCore
 
             outsideRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            Radar.AddGraphics(outsideRadarCircle);
+            RadarGraphic.AddGraphics(outsideRadarCircle);
 
-            BackGround.AddGraphics(Radar);
+            BackGround.AddGraphics(RadarGraphic);
         }
 
         ///
@@ -223,6 +229,7 @@ namespace BaseWpfCore
         {
             /// 
             /// Create Foreground Graphics
+            /// ToDo: this isn't used. I convert it back to a MainBadges
             /// 
 
             ForeGround = new ForegroundRadialGraphicViewModel();
