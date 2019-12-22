@@ -242,9 +242,9 @@ namespace BaseWpfCore
             /// Create Foreground Graphics
             /// ToDo: this isn't used. I convert it back to a MainBadges
             /// 
-
             ForeGround = new ForegroundRadialGraphicViewModel();
 
+            /// Add the containers for the glucose and carb intake readings
             MainBadges = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -260,8 +260,11 @@ namespace BaseWpfCore
                 GraphicsColor = (BadgeColor)BadgeColor.Blue,
             };
 
+            // populate the pieces to build the graphic
             MainBadges.PopulateRadialGraphicSegmentsProperty();
 
+            // Generate random glucose levels, carb intake levels
+            // and colors for the container fill
             var rand = new Random();
 
             MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
@@ -272,6 +275,32 @@ namespace BaseWpfCore
             }
             );
 
+            ///
+            /// Add the hour time stamps to the infographic
+            /// 
+            var HourContainers = new HourContainerViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 1,
+                NumberOfChildrenInGroup = 12,
+                ChildClearance = 10,
+                GroupClearance = 0,
+                InnerRadius = 200,
+                OuterRadius = 220,
+                FullAngleFrom = 20,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Blue,
+            };
+
+            // populate the pieces to build the graphic
+            HourContainers.PopulateRadialGraphicSegmentsProperty();
+
+            MainBadges.AddGraphics(HourContainers);
+
+            ///
+            /// Start the Short Acting Lines added to the infographic
+            /// 
             ShortActings = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -284,7 +313,7 @@ namespace BaseWpfCore
                 OuterRadius = 100,
                 FullAngleFrom = 0,
                 FullAngleTo = 180,
-                GraphicsColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.Red,
             };
 
             ShortActings.PopulateRadialGraphicSegmentsProperty();

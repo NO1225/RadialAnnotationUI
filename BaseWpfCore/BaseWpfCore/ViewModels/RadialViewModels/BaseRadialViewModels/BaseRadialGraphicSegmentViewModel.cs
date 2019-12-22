@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace BaseWpfCore
 {
-    public class BaseRadialGraphicSegmentViewModel
+    public class BaseRadialGraphicSegmentViewModel 
     {
         #region Public Properties
 
@@ -29,6 +29,8 @@ namespace BaseWpfCore
         public string GlucoseLevel { get; set; }
 
         public string CarbAmount { get; set; }
+
+        public string HourText { get; set; }
 
         /// <summary>
         /// The angle at which this annotation should be rotated

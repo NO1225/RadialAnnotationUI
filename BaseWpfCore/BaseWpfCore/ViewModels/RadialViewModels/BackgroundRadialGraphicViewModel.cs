@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class ForegroundRadialGraphicViewModel : BaseRadialGraphicViewModel
+    public class BackgroundRadialGraphicViewModel : BaseRadialGraphicViewModel
     {
     }
 }

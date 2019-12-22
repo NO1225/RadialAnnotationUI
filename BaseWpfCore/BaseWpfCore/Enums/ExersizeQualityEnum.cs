@@ -6,11 +6,11 @@ namespace BaseWpfCore.Enums
 {
     public enum ExersizeQualityEnum
     {
-        MaxExertion = 5,
-        WorkedPrettyHard = 4,
-        BrokeASweat = 3,
-        WalkedRapidly = 2,
-        WalkedSlowly = 1,
+        MaximumIntensity = 5,
+         HighIntensity = 4,
+        MediumIntensity = 3,
+        LowIntensity = 2,
+        MinimumIntensity = 1,
 
 
     }
