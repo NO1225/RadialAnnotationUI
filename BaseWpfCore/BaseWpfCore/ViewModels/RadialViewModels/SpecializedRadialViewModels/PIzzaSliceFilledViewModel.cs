@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class SolidFilledArcPieFromCenter : BaseRadialGraphicViewModel
+    public class PizzaSliceFilledViewModel : BaseRadialGraphicViewModel
     {
-        public SolidFilledArcPieFromCenter()
+        public PizzaSliceFilledViewModel()
         {
             NumberOfGroups = 1;
             NumberOfChildrenInGroup = 1;

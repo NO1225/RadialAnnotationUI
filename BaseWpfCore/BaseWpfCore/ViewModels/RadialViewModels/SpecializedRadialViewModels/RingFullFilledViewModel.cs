@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class SolidCompleteRingViewModel : BaseRadialGraphicViewModel
+    public class RingFullFilledViewModel : BaseRadialGraphicViewModel
     {
 
-        public SolidCompleteRingViewModel()
+        public RingFullFilledViewModel()
         {
             ChildClearance = 0;
             GroupClearance = 0;

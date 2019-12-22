@@ -14,10 +14,39 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Right"
+                       FontSize="20"
+                       VerticalAlignment="Bottom"
+                       Text="Start Date : " />
+            <DatePicker Grid.Column="1" Height="25" HorizontalAlignment="Center" 
+                        Margin="42,26,0,0" Name="datePicker1" 
+                        VerticalAlignment="Top" Width="115" >
+            </DatePicker>
+            <!--TODO: I was trying to add some kind of binding from the 
+            datepicker on the page to the ContainerViewModel to update 
+            the current display date -->
+            <!--SelectedDateChanged={Binding DateChanged}"/>-->
+            <Button Grid.Column="2" FontSize="18" FontWeight="Bold"
+                    Content="{Binding MorningOrNight, Converter={local:AMAndPMToButtonContentConverter}}"
+                    Command="{Binding ToggleAmAndPmCommand}"
+                    >
+
+            </Button>
+
+
+
+        </Grid>
+
         <Grid
             Background="Black"
             Grid.Row="1">
-             
+
             <!-- BackGround -->
             <ItemsControl 
                 DataContext="{Binding BackGround}"
@@ -86,6 +115,6 @@
             </ItemsControl>
         </Grid>
 
-        
+
     </Grid>
 </local:BasePage>

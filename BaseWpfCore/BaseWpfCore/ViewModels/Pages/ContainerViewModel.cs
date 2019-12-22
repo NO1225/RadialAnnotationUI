@@ -14,6 +14,12 @@ namespace BaseWpfCore
 
         #region Public Properties
 
+        public DateTime CurrentDayToShow { get; set; }
+
+        public AMPMEnum MorningOrNight { get; set; }
+
+        public DateTime InfographicStartTime { get; set; }
+
         // The background graphics for the infographic
         public BackgroundRadialGraphicViewModel BackGround { get; set; }
 
@@ -57,15 +63,23 @@ namespace BaseWpfCore
         // The command to generate the infographic
         public ICommand RefreshCommand { get; set; }
 
+        /// <summary>
+        /// A command that toggles the AM and PM button
+        /// on the main infographic
+        /// </summary>
+        public ICommand ToggleAmAndPmCommand { get; set; }
+
         #endregion
 
         #region Default Constructor
 
         public ContainerViewModel()
         {
-
+            MorningOrNight = AMPMEnum.PM;
             // The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
+
+            ToggleAmAndPmCommand = new RelayCommand(ToggleAmAndPm);
 
             // Calls the refresh method to generate the infographic
             Refresh();
@@ -74,6 +88,19 @@ namespace BaseWpfCore
         #endregion
 
         #region Helping Methods
+
+        public void DateChanged()
+        {
+
+        }
+
+        public void ToggleAmAndPm()
+        {
+            // ToDo: I know there is a better way to do this
+
+            if (MorningOrNight == AMPMEnum.AM) { MorningOrNight = AMPMEnum.PM; }
+            else { MorningOrNight = AMPMEnum.AM; }
+        }
 
         /// <summary>
         /// The method to generate all the view models that are used in
@@ -101,7 +128,7 @@ namespace BaseWpfCore
         /// 
         private void AddWhiteOutsideRingToBackground()
         {
-            var whiteBackgroundRing = new SolidCompleteRingViewModel()
+            var whiteBackgroundRing = new RingFullFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -145,7 +172,7 @@ namespace BaseWpfCore
 
             //BackGround.AddGraphics(crosshairs);
 
-            var innerRadarCircle = new SolidCompleteLineCircleViewModel()
+            var innerRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -160,7 +187,7 @@ namespace BaseWpfCore
 
             Radar.AddGraphics(innerRadarCircle);
 
-            var middleRadarCircle = new SolidCompleteLineCircleViewModel()
+            var middleRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -173,7 +200,7 @@ namespace BaseWpfCore
 
             Radar.AddGraphics(middleRadarCircle);
 
-            var outsideRadarCircle = new SolidCompleteLineCircleViewModel()
+            var outsideRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -265,7 +292,7 @@ namespace BaseWpfCore
             ForeGround.AddGraphics(ShortActings);
             ForeGround.AddGraphics(LongActings);
 
-            var mainNeedle = new SolidFilledArcPieFromCenter()
+            var mainNeedle = new PizzaSliceFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
@@ -279,7 +306,7 @@ namespace BaseWpfCore
 
             ForeGround.RadialGraphicSegments.Add(mainNeedle.RadialGraphicSegments.First());
 
-            var centerCircle = new SolidCompleteFilledCircleViewModel()
+            var centerCircle = new CircleFullFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
