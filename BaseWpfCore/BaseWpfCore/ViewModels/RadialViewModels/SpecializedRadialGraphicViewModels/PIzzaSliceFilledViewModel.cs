@@ -11,7 +11,7 @@ namespace BaseWpfCore
             NumberOfGroups = 1;
             NumberOfChildrenInGroup = 1;
             ChildClearance = 0;
-                GroupClearance = 0;
+            GroupClearance = 0;
             InnerRadius = 0;
         }
     }

@@ -9,7 +9,7 @@ namespace BaseWpfCore
         public ArcLineViewModel()
         {
             NumberOfGroups = 1;
-            // should NumberOfChildrenInGroup be 1 or is that 
+            // TODO:should NumberOfChildrenInGroup be 1 or is that 
             // only used if it extends past 180 degrees
             NumberOfChildrenInGroup = 2;
             ChildClearance = 0;
