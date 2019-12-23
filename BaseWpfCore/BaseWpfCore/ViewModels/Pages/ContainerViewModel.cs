@@ -481,7 +481,7 @@ namespace BaseWpfCore
             
             int starttime = InfographicStartTime.Hour * 60;
 
-            
+            var mostRecentGlucoseBackgroundColor = BadgeColor.Black;
 
             foreach (BaseRadialGraphicSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
             {
@@ -497,13 +497,22 @@ namespace BaseWpfCore
                             decimal gl = (decimal)glucoseRecording.GlucoseLevel / 10;
                             timeSegment.GlucoseLevel = string.Format("{0:F1}", gl);
                             glucoseMatch = true;
+                            
+                            if (gl < 5) { timeSegment.BadgeColor = BadgeColor.White; }
+                            else if (gl < 8) { timeSegment.BadgeColor = BadgeColor.Blue; }
+                            else if (gl < 11) { timeSegment.BadgeColor = BadgeColor.Pink; }
+                            else { timeSegment.BadgeColor = BadgeColor.Red; }
+
+                            mostRecentGlucoseBackgroundColor = timeSegment.BadgeColor;
+
+
                         }
                     }
                     
                 }
                 if (!glucoseMatch)
                 {
-                    timeSegment.BadgeColor = BadgeColor.White;
+                    timeSegment.BadgeColor = mostRecentGlucoseBackgroundColor;
                     timeSegment.GlucoseLevel = "";
                 }
 

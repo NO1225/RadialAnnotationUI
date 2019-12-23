@@ -30,6 +30,10 @@ namespace BaseWpfCore
         public UserRecordingsDataModel()
         {
             LoadDummyData();
+            // TODO: I have entered the dummy data in order, but it will have to be sorted 
+            // by date of recording first in order for the badge color background to work
+            // when we set it in the Container View Model, PopulateBadgesWithGlucoseRecordings method
+
         }
 
         public void LoadDummyData()
@@ -41,7 +45,7 @@ namespace BaseWpfCore
                 ///
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 40,
                     StartTime = new DateTime(2019, 12, 20, 1, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
@@ -54,7 +58,7 @@ namespace BaseWpfCore
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 100,
                     StartTime = new DateTime(2019, 12, 20, 7, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
@@ -67,27 +71,27 @@ namespace BaseWpfCore
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 130,
                     StartTime = new DateTime(2019, 12, 20, 13, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 152,
                     StartTime = new DateTime(2019, 12, 20, 16, 18, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 130,
                     StartTime = new DateTime(2019, 12, 20, 19, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 55,
                     StartTime = new DateTime(2019, 12, 20, 22, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
@@ -96,7 +100,7 @@ namespace BaseWpfCore
                 ///
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 10,
                     StartTime = new DateTime(2019, 12, 21, 2, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
@@ -109,40 +113,40 @@ namespace BaseWpfCore
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 30,
                     StartTime = new DateTime(2019, 12, 21, 8, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 35,
                     StartTime = new DateTime(2019, 12, 21, 11, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 84,
                     StartTime = new DateTime(2019, 12, 21, 14, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 64,
                     StartTime = new DateTime(2019, 12, 21, 17, 18, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 49,
                     StartTime = new DateTime(2019, 12, 21, 20, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 94,
                     StartTime = new DateTime(2019, 12, 21, 21, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 },///
@@ -150,46 +154,46 @@ namespace BaseWpfCore
                 ///
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 105,
                     StartTime = new DateTime(2019, 12, 22, 1, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 79,
                     StartTime = new DateTime(2019, 12, 22, 3, 30, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 58,
                     StartTime = new DateTime(2019, 12, 22, 7, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 49,
                     StartTime = new DateTime(2019, 12, 22, 10, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 60,
                     StartTime = new DateTime(2019, 12, 22, 13, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 85,
                     StartTime = new DateTime(2019, 12, 22, 16, 18, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 85,
                     StartTime = new DateTime(2019, 12, 22, 19, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
@@ -205,46 +209,46 @@ namespace BaseWpfCore
                 ///
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 120,
                     StartTime = new DateTime(2019, 12, 23, 2, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 125,
                     StartTime = new DateTime(2019, 12, 23, 4, 30, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 105,
                     StartTime = new DateTime(2019, 12, 23, 8, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 150,
                     StartTime = new DateTime(2019, 12, 23, 11, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 145,
                     StartTime = new DateTime(2019, 12, 23, 14, 15, 0),
                     Duration = new TimeSpan(0,0,1)
 
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 67,
+                    GlucoseLevel = 104,
                     StartTime = new DateTime(2019, 12, 23, 17, 18, 0),
                     Duration = new TimeSpan(0,0,1)
                 },
                 new GlucoseLevelRecordingDataModel
                 {
-                    GlucoseLevel = 50,
+                    GlucoseLevel = 97,
                     StartTime = new DateTime(2019, 12, 23, 20, 05, 0),
                     Duration = new TimeSpan(0,0,1)
 
