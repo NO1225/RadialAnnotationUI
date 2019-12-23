@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BaseWpfCore.ViewModels.DataEntryDataModels
+namespace BaseWpfCore
 {
-    public class ShortTermInsulinEntryDataModel
+    public class ShortTermInsulinRecordingDataModel
     {
         public int Quantity { get; set; }
 

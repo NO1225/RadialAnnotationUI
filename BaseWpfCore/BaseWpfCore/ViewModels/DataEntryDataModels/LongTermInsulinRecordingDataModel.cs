@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class LongTermInsulinEntryDataModel
+    public class LongTermInsulinRecordingDataModel
     {
         public int Quantity { get; set; }
 

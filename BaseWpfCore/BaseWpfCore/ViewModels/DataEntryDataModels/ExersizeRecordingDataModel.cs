@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class ExersizeEntryDataModel : BaseViewModel
+    public class ExersizeRecordingDataModel : BaseViewModel
     {
         #region Public properties
 
@@ -35,7 +35,7 @@ namespace BaseWpfCore
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public ExersizeEntryDataModel()
+        public ExersizeRecordingDataModel()
         {
 
         }
@@ -46,7 +46,7 @@ namespace BaseWpfCore
         /// <param name="quality"> the quality of the exersize 1-5 with 5 being max</param>
         /// <param name="startTime">the date time that the exersize was started</param>
         /// <param name="duration"> the length of time the exersize lasted for</param>
-        public ExersizeEntryDataModel(ExersizeQualityEnum quality, DateTime startTime, TimeSpan duration)
+        public ExersizeRecordingDataModel(ExersizeQualityEnum quality, DateTime startTime, TimeSpan duration)
         {
             Quality = quality;
             StartTime = startTime;

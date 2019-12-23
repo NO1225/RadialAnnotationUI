@@ -4,16 +4,16 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class CarbIntakeEntryDataModel
+    public class CarbIntakeRecordingDataModel
     {
 
-        public int CarbIntakeLevel { get; set; }
+        public int CarbIntakeAmount { get; set; }
 
         public DateTime StartTime { get; set; }
 
         public TimeSpan Duration { get; set; }
 
-        public CarbIntakeEntryDataModel()
+        public CarbIntakeRecordingDataModel()
         {
             //Duration = TimeSpan.FromHours()
         }

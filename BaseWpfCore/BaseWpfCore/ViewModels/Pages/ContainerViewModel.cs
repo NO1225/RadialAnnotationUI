@@ -12,11 +12,52 @@ namespace BaseWpfCore
     public class ContainerViewModel : BaseViewModel
     {
 
+        #region Private properties
+
+        DateTime mCurrentDayToShow;
+
+        AMPMEnum mMorningOrNight;
+
+        #endregion
+
         #region Public Properties
 
-        public DateTime CurrentDayToShow { get; set; }
+        public DateTime CurrentDayToShow
+        {
+            get
+            {
+                return mCurrentDayToShow;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    mCurrentDayToShow = value;
+                    Refresh();
+                }
+                else mCurrentDayToShow = DateTime.Now;
+            }
+        }
 
-        public AMPMEnum MorningOrNight { get; set; }
+        public AMPMEnum MorningOrNight
+        {
+            get
+            {
+                return mMorningOrNight;
+            }
+            set
+            {
+                mMorningOrNight = value;
+                if (mMorningOrNight == AMPMEnum.AM)
+                {
+                    InfographicStartTime = new DateTime(2019, 12, 12, 0, 0, 0);
+                }
+                else InfographicStartTime = new DateTime(2019, 12, 12, 12, 0, 0);
+                Refresh();
+            }
+        }
+
+        public UserRecordingsDataModel UserRecordings { get; set; }
 
         public DateTime InfographicStartTime { get; set; }
 
@@ -31,9 +72,9 @@ namespace BaseWpfCore
         // The radar image for the background
         public BaseRadialGraphicViewModel RadarGraphic { get; set; }
 
-        // The outside ring colored polygons that show glucose readings,
+        // The outside ring colored polygons that show glucose Recordings,
         // Caloric intake and the background is colored to indicate if the 
-        // glucose reading is within what range: low, good, high, dangerously
+        // glucose Recording is within what range: low, good, high, dangerously
         // high
         // Todo: currently this includes the center circle and also the 
         // 'arm of the clock' graphic.  It should probably be seperated
@@ -76,10 +117,17 @@ namespace BaseWpfCore
         public ContainerViewModel()
         {
             MorningOrNight = AMPMEnum.PM;
+
+            UserRecordings = new UserRecordingsDataModel();
+
             // The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
 
             ToggleAmAndPmCommand = new RelayCommand(ToggleAmAndPm);
+
+            CurrentDayToShow = DateTime.Now;
+
+            
 
             // Calls the refresh method to generate the infographic
             Refresh();
@@ -108,6 +156,9 @@ namespace BaseWpfCore
         /// </summary>
         private void Refresh()
         {
+            UserRecordings = new UserRecordingsDataModel();
+
+
             // Create a new background property
             BackGround = new BackgroundRadialGraphicViewModel();
 
@@ -244,7 +295,7 @@ namespace BaseWpfCore
             /// 
             ForeGround = new ForegroundRadialGraphicViewModel();
 
-            /// Add the containers for the glucose and carb intake readings
+            /// Add the containers for the glucose and carb intake Recordings
             MainBadges = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -263,6 +314,8 @@ namespace BaseWpfCore
             // populate the pieces to build the graphic
             MainBadges.PopulateRadialGraphicSegmentsProperty();
 
+            PopulateBadgesWithGlucoseRecordings(MainBadges);
+
             // Generate random glucose levels, carb intake levels
             // and colors for the container fill
             var rand = new Random();
@@ -275,28 +328,30 @@ namespace BaseWpfCore
             }
             );
 
-            ///
-            /// Add the hour time stamps to the infographic
-            /// 
-            var HourContainers = new HourContainerViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 12,
-                ChildClearance = 10,
-                GroupClearance = 0,
-                InnerRadius = 200,
-                OuterRadius = 220,
-                FullAngleFrom = 20,
-                FullAngleTo = 360,
-                GraphicsColor = (BadgeColor)BadgeColor.Blue,
-            };
+            PopulateBadgesWithGlucoseRecordings(MainBadges);
+
+            /////
+            ///// Add the hour time stamps to the infographic
+            ///// 
+            //var HourContainers = new HourContainerViewModel()
+            //{
+            //    ContainerHeight = this.ContainerHeight,
+            //    ContainerWidth = this.ContainerWidth,
+            //    NumberOfGroups = 1,
+            //    NumberOfChildrenInGroup = 12,
+            //    ChildClearance = 10,
+            //    GroupClearance = 0,
+            //    InnerRadius = 200,
+            //    OuterRadius = 220,
+            //    FullAngleFrom = 20,
+            //    FullAngleTo = 360,
+            //    GraphicsColor = (BadgeColor)BadgeColor.Blue,
+            //};
 
             // populate the pieces to build the graphic
-            HourContainers.PopulateRadialGraphicSegmentsProperty();
+            //HourContainers.PopulateRadialGraphicSegmentsProperty();
 
-            MainBadges.AddGraphics(HourContainers);
+            //MainBadges.AddGraphics(HourContainers);
 
             ///
             /// Start the Short Acting Lines added to the infographic
@@ -378,6 +433,49 @@ namespace BaseWpfCore
             return Math.PI * angle / 180.0;
         }
 
+
+        public void PopulateBadgesWithGlucoseRecordings(BaseRadialGraphicViewModel mainBadges)
+        {
+            
+            int starttime = InfographicStartTime.Hour * 60;
+            foreach (BaseRadialGraphicSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
+            {
+                var glucoseMatch = false;
+                foreach (GlucoseLevelRecordingDataModel glucoseRecording in UserRecordings.GlucoseLevelRecordings)
+                {
+                    int glucoseTime = glucoseRecording.StartTime.Hour * 60 + glucoseRecording.StartTime.Minute;
+                    if (glucoseTime >= starttime && glucoseTime < starttime + 12)
+                    {
+                        timeSegment.GlucoseLevel = (glucoseRecording.GlucoseLevel / 10).ToString();
+                        glucoseMatch = true;
+                    }
+                    
+                }
+                if (!glucoseMatch)
+                {
+                    timeSegment.BadgeColor = BadgeColor.White;
+                    timeSegment.GlucoseLevel = "0.0";
+                }
+
+                var carbMatch = false;
+                foreach (CarbIntakeRecordingDataModel carbRecording in UserRecordings.CarbIntakeRecordings)
+                {
+                    int carbTime = carbRecording.StartTime.Hour * 60 + carbRecording.StartTime.Minute;
+                    if (carbTime >= starttime && carbTime < starttime + 12)
+                    {
+                        timeSegment.CarbAmount = carbRecording.CarbIntakeAmount.ToString();
+                        carbMatch = true;
+                    }
+
+                }
+                if (!carbMatch)
+                {
+                    timeSegment.CarbAmount = "0.0";
+                }
+
+                starttime = starttime + 12;
+            }
+        }
         #endregion
     }
 }

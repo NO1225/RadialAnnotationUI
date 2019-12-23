@@ -29,7 +29,9 @@
                                  VerticalAlignment="Top" Width="250" />-->
             <DatePicker Grid.Column="1" Height="25" HorizontalAlignment="Center" 
                         Margin="42,26,0,0" Name="datePicker1" 
-                        VerticalAlignment="Top" Width="115" >
+                        VerticalAlignment="Top" Width="115" 
+                        
+                        SelectedDate="{Binding CurrentDayToShow}">
             </DatePicker>
             <!--TODO: I was trying to add some kind of binding from the 
             datepicker on the page to the ContainerViewModel to update 

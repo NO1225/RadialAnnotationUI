@@ -21,6 +21,7 @@ namespace BaseWpfCore
         public ControlContainerPage()
         {
             InitializeComponent();
+            
         }
     }
 }

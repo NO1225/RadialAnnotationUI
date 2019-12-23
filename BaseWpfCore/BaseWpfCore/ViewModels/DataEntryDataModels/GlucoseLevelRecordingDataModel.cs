@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class GlucoseReadingEntryDataModel
+    public class GlucoseLevelRecordingDataModel
     {
         public int GlucoseLevel { get; set; }
 
