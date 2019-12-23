@@ -181,9 +181,21 @@ namespace BaseWpfCore
         public ICommand GoBack12HoursCommand { get; set; }
 
         /// <summary>
+        /// command to change the infographic back 24 hours
+        /// </summary>
+        public ICommand GoBack24HoursCommand { get; set; }
+
+        /// <summary>
         /// command to change the infographic forward 12 hours
         /// </summary>
         public ICommand GoForward12HoursCommand { get; set; }
+
+        /// <summary>
+        /// command to change the infographic forward 12 hours
+        /// </summary>
+        public ICommand GoForward24HoursCommand { get; set; }
+
+
 
         #endregion
 
@@ -210,8 +222,15 @@ namespace BaseWpfCore
             /// Command to jump back 12 hours
             GoBack12HoursCommand = new RelayCommand(GoBack12Hours);
 
+            /// Command to jump back 12 hours
+            GoBack24HoursCommand = new RelayCommand(GoBack24Hours);
+
+
             /// Command to jump forward 12 hours
             GoForward12HoursCommand = new RelayCommand(GoForward12Hours);
+
+            /// Command to jump forward 24 hours
+            GoForward24HoursCommand = new RelayCommand(GoForward24Hours);
 
             /// Set the current date to today's date
             CurrentDateToShow = DateTime.Now;
@@ -243,6 +262,19 @@ namespace BaseWpfCore
         }
 
         /// <summary>
+        /// change the infographic to 24 hours previous
+        /// </summary>
+        public void GoBack24Hours()
+        {
+            /// Set the current date to show to one day prior
+            CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
+
+            /// Calls the refresh method to generate the infographic
+            Refresh();
+        }
+
+
+        /// <summary>
         /// change the infographic to 12 hours forward in time
         /// </summary>
         public void GoForward12Hours()
@@ -255,6 +287,18 @@ namespace BaseWpfCore
 
             /// Command to toggle between AM and PM
             ToggleAmAndPm();
+
+            /// Calls the refresh method to generate the infographic
+            Refresh();
+        }
+
+        /// <summary>
+        /// change the infographic to 24 hours forward in time
+        /// </summary>
+        public void GoForward24Hours()
+        {
+            /// set the current date to show to one day in the future
+            CurrentDateToShow = CurrentDateToShow.AddDays(1);
 
             /// Calls the refresh method to generate the infographic
             Refresh();
