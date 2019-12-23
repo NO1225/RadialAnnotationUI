@@ -14,7 +14,7 @@ namespace BaseWpfCore
 
         #region Private properties
 
-        DateTime mCurrentDayToShow;
+        DateTime mCurrentDateToShow;
 
         AMPMEnum mMorningOrNight;
 
@@ -22,20 +22,23 @@ namespace BaseWpfCore
 
         #region Public Properties
 
-        public DateTime CurrentDayToShow
+        public string DateTimePrettyText { get; private set; }
+
+        public DateTime CurrentDateToShow
         {
             get
             {
-                return mCurrentDayToShow;
+                return mCurrentDateToShow;
             }
             set
             {
                 if (value != null)
                 {
-                    mCurrentDayToShow = value;
+                    mCurrentDateToShow = value;
+                    DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy") + " " + MorningOrNight.ToString();
                     Refresh();
                 }
-                else mCurrentDayToShow = DateTime.Now;
+                else mCurrentDateToShow = DateTime.Now;
             }
         }
 
@@ -53,6 +56,8 @@ namespace BaseWpfCore
                     InfographicStartTime = new DateTime(2019, 12, 12, 0, 0, 0);
                 }
                 else InfographicStartTime = new DateTime(2019, 12, 12, 12, 0, 0);
+                DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy") + " " + MorningOrNight.ToString();
+                   
                 Refresh();
             }
         }
@@ -110,6 +115,16 @@ namespace BaseWpfCore
         /// </summary>
         public ICommand ToggleAmAndPmCommand { get; set; }
 
+        /// <summary>
+        /// command to change the infographic back 12 hours
+        /// </summary>
+        public ICommand GoBack12HoursCommand { get; set; }
+
+        /// <summary>
+        /// command to change the infographic forward 12 hours
+        /// </summary>
+        public ICommand GoForward12HoursCommand { get; set; }
+
         #endregion
 
         #region Default Constructor
@@ -125,7 +140,11 @@ namespace BaseWpfCore
 
             ToggleAmAndPmCommand = new RelayCommand(ToggleAmAndPm);
 
-            CurrentDayToShow = DateTime.Now;
+            GoBack12HoursCommand = new RelayCommand(GoBack12Hours);
+
+            GoForward12HoursCommand = new RelayCommand(GoForward12Hours);
+
+            CurrentDateToShow = DateTime.Now;
 
             
 
@@ -137,9 +156,24 @@ namespace BaseWpfCore
 
         #region Helping Methods
 
-        public void DateChanged()
+        public void GoBack12Hours()
         {
+            if (MorningOrNight == AMPMEnum.AM)
+            {
+                CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
+            }
+            ToggleAmAndPm();
+            Refresh();
+        }
 
+        public void GoForward12Hours()
+        {
+            if (MorningOrNight == AMPMEnum.PM)
+            {
+                CurrentDateToShow = CurrentDateToShow.AddDays(1);
+            }
+            ToggleAmAndPm();
+            Refresh();
         }
 
         public void ToggleAmAndPm()
@@ -438,39 +472,51 @@ namespace BaseWpfCore
         {
             
             int starttime = InfographicStartTime.Hour * 60;
+
+            
+
             foreach (BaseRadialGraphicSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
             {
                 var glucoseMatch = false;
                 foreach (GlucoseLevelRecordingDataModel glucoseRecording in UserRecordings.GlucoseLevelRecordings)
                 {
-                    int glucoseTime = glucoseRecording.StartTime.Hour * 60 + glucoseRecording.StartTime.Minute;
-                    if (glucoseTime >= starttime && glucoseTime < starttime + 12)
+                    // check to see if the date matches 
+                    if (glucoseRecording.StartTime.Date == CurrentDateToShow.Date)
                     {
-                        timeSegment.GlucoseLevel = (glucoseRecording.GlucoseLevel / 10).ToString();
-                        glucoseMatch = true;
+                        int glucoseTime = glucoseRecording.StartTime.Hour * 60 + glucoseRecording.StartTime.Minute;
+                        if (glucoseTime >= starttime && glucoseTime < starttime + 12)
+                        {
+                            decimal gl = (decimal)glucoseRecording.GlucoseLevel / 10;
+                            timeSegment.GlucoseLevel = string.Format("{0:F1}", gl);
+                            glucoseMatch = true;
+                        }
                     }
                     
                 }
                 if (!glucoseMatch)
                 {
                     timeSegment.BadgeColor = BadgeColor.White;
-                    timeSegment.GlucoseLevel = "0.0";
+                    timeSegment.GlucoseLevel = "";
                 }
 
                 var carbMatch = false;
                 foreach (CarbIntakeRecordingDataModel carbRecording in UserRecordings.CarbIntakeRecordings)
                 {
-                    int carbTime = carbRecording.StartTime.Hour * 60 + carbRecording.StartTime.Minute;
-                    if (carbTime >= starttime && carbTime < starttime + 12)
+                    // check to see if the date matches 
+                    if (carbRecording.StartTime.Date == CurrentDateToShow.Date)
                     {
-                        timeSegment.CarbAmount = carbRecording.CarbIntakeAmount.ToString();
-                        carbMatch = true;
+                        int carbTime = carbRecording.StartTime.Hour * 60 + carbRecording.StartTime.Minute;
+                        if (carbTime >= starttime && carbTime < starttime + 12)
+                        {
+                            timeSegment.CarbAmount = carbRecording.CarbIntakeAmount.ToString();
+                            carbMatch = true;
+                        }
                     }
 
                 }
                 if (!carbMatch)
                 {
-                    timeSegment.CarbAmount = "0.0";
+                    timeSegment.CarbAmount = "";
                 }
 
                 starttime = starttime + 12;

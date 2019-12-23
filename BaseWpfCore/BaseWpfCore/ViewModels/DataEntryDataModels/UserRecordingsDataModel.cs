@@ -7,7 +7,7 @@ namespace BaseWpfCore
     /// <summary>
     /// Represents all the entries for a user
     /// </summary>
-    public class UserRecordingsDataModel
+    public class UserRecordingsDataModel : BaseViewModel
     {
         public List<GlucoseLevelRecordingDataModel> GlucoseLevelRecordings { get; set; }
         = new List<GlucoseLevelRecordingDataModel>();
@@ -63,7 +63,7 @@ namespace BaseWpfCore
                 },
                 new CarbIntakeRecordingDataModel
                 {
-                    CarbIntakeAmount = 6,
+                    CarbIntakeAmount = 2,
                     StartTime = new DateTime(2019, 12, 22, 9, 45, 0),
                     Duration = new TimeSpan(0,0,1)
 

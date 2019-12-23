@@ -69,6 +69,8 @@
                                                     Angle="{Binding GlucoseTextAngle}"/>
                                             </TextBlock.RenderTransform>
                                         </TextBlock>
+
+                                        
                                     </Viewbox>
 
                                     <!-- Carb Amount -->
@@ -78,6 +80,8 @@
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         >
+                                        
+                                        
                                         <TextBlock 
                                             Margin="1"
                                             x:Name="CarbAmount"

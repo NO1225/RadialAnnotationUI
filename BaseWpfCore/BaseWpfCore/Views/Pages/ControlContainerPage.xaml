@@ -10,6 +10,7 @@
     <Grid Background="Gainsboro">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
@@ -31,14 +32,16 @@
                         Margin="42,26,0,0" Name="datePicker1" 
                         VerticalAlignment="Top" Width="115" 
                         
-                        SelectedDate="{Binding CurrentDayToShow}">
+                        SelectedDate="{Binding CurrentDateToShow, Mode=TwoWay}">
             </DatePicker>
             <!--TODO: I was trying to add some kind of binding from the 
             datepicker on the page to the ContainerViewModel to update 
             the current display date -->
             <!--SelectedDateChanged={Binding DateChanged}"/>-->
             <Button Grid.Column="2" FontSize="18" FontWeight="Bold"
-                    Content="{Binding MorningOrNight, Converter={local:AMAndPMToButtonContentConverter}}"
+                    Background="LimeGreen"
+                    Content="{Binding MorningOrNight, 
+                Converter={local:AMAndPMToButtonContentConverter}}"
                     Command="{Binding ToggleAmAndPmCommand}"
                     >
 
@@ -48,9 +51,33 @@
 
         </Grid>
 
+        <Grid Grid.Row="1" Background="Black" Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" Content="Back" Background="LimeGreen"
+                    FontSize="22" Command="{Binding GoBack12HoursCommand}">
+            </Button>
+
+            <TextBlock Grid.Column="2" Text="{Binding DateTimePrettyText}"
+                       FontSize="25" VerticalAlignment="Center"
+                       HorizontalAlignment="Center" 
+                       Background="Beige"/>
+
+            <Button Grid.Column="3" Content="Forward" Background="LimeGreen"
+                    FontSize="22" Command="{Binding GoForward12HoursCommand}">
+            </Button>
+        </Grid>
+
+
         <Grid
             Background="Black"
-            Grid.Row="1">
+            Grid.Row="2">
 
             <!-- BackGround -->
             <ItemsControl 
