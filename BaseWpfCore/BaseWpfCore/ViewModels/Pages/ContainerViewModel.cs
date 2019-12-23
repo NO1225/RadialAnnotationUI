@@ -22,8 +22,17 @@ namespace BaseWpfCore
 
         #region Public Properties
 
+        /// <summary>
+        /// date represented as MMM dd yyyy AM or 
+        ///                     MMM dd yyyy PM
+        /// </summary>
         public string DateTimePrettyText { get; private set; }
 
+        /// <summary>
+        /// The current date that the infographic is focused on
+        /// can be changed by the date picker or through
+        /// going forwards or backwards in time
+        /// </summary>
         public DateTime CurrentDateToShow
         {
             get
@@ -34,6 +43,9 @@ namespace BaseWpfCore
             {
                 if (value != null)
                 {
+                    /// see if the new date is from the datepicker
+                    /// if so, and it is more than one day, always
+                    /// set the AM / PM to AM
                     var t = Math.Abs(mCurrentDateToShow.Ticks - value.Ticks);
                     var d = TimeSpan.FromTicks(t).TotalHours;
                     if (d > 24)
@@ -41,14 +53,23 @@ namespace BaseWpfCore
                         MorningOrNight = AMPMEnum.AM;
                     }
                     mCurrentDateToShow = value;
+
+                    /// set the date pretty text property
                     DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
                         + " " + MorningOrNight.ToString();
+
+                    /// refresh the infographic
                     Refresh();
                 }
+
+                /// I don't think this needs to be here anymore
                 else mCurrentDateToShow = DateTime.Now;
             }
         }
 
+        /// <summary>
+        /// property to represent if we are currently in AM or PM
+        /// </summary>
         public AMPMEnum MorningOrNight
         {
             get
@@ -60,44 +81,73 @@ namespace BaseWpfCore
                 mMorningOrNight = value;
                 if (mMorningOrNight == AMPMEnum.AM)
                 {
+                    /// set the infographic time to :  00:00:00 to 11:59:59
                     InfographicStartTime = new DateTime(2019, 12, 12, 0, 0, 0);
                 }
+                /// set the infographic time to :  12:00:00 to 23:59:59
                 else InfographicStartTime = new DateTime(2019, 12, 12, 12, 0, 0);
+
+                /// set the date pretty text property
                 DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
                     + " " + MorningOrNight.ToString();
-                   
+
+                /// refresh the infographic
                 Refresh();
             }
         }
 
+        /// <summary>
+        /// A copy of all the Recordings made by the user for:
+        /// Glucose Level,
+        /// Carb Intake,
+        /// Exersize,
+        /// Short term insulin,
+        /// Long term insulin
+        /// </summary>
         public UserRecordingsDataModel UserRecordings { get; set; }
 
+        /// <summary>
+        /// current infographic start time... currently they can only 
+        /// be 00:00:00 or 12:00:00
+        /// </summary>
         public DateTime InfographicStartTime { get; set; }
 
-        // The background graphics for the infographic
+        /// <summary>
+        /// The background graphics for the infographic
+        /// </summary>
         public BackgroundRadialGraphicViewModel BackGround { get; set; }
 
-        // The foreground graphics for the infographic
-        // Todo: This isn't being used yet, it is converted
-        // back to MainBadges currently at the end of the refresh() method
+        /// <summary>
+        /// The foreground graphics for the infographic
+        /// Todo: This isn't being used yet, it is converted
+        /// back to MainBadges currently at the end of the refresh() method
+        /// </summary>
         public ForegroundRadialGraphicViewModel ForeGround { get; set; }
 
-        // The radar image for the background
+        /// <summary>
+        /// The radar image for the background
+        /// </summary>
         public BaseRadialGraphicViewModel RadarGraphic { get; set; }
 
-        // The outside ring colored polygons that show glucose Recordings,
-        // Caloric intake and the background is colored to indicate if the 
-        // glucose Recording is within what range: low, good, high, dangerously
-        // high
-        // Todo: currently this includes the center circle and also the 
-        // 'arm of the clock' graphic.  It should probably be seperated
-        // but I didn't want to screw up the wpf ui
+        /// <summary>
+        /// The outside ring colored polygons that show glucose Recordings,
+        /// Caloric intake and the background is colored to indicate if the 
+        /// glucose Recording is within what range: low, good, high, dangerously
+        /// high
+        /// Todo: currently this includes the center circle and also the 
+        /// 'arm of the clock' graphic.  It should probably be seperated
+        /// but I didn't want to screw up the wpf ui
+        /// </summary>
         public BaseRadialGraphicViewModel MainBadges { get; set; }
 
-        // The outside LineArcs that represent short term insullin availability
+        /// <summary>
+        /// The outside LineArcs that represent short term insulin availability
+        /// </summary>
         public BaseRadialGraphicViewModel ShortActings { get; set; }
 
-        // The inside lineArcs that represent long term insullin availability 
+        /// <summary>
+        /// The inside lineArcs that represent long term insullin availability 
+        /// </summary>
         public BaseRadialGraphicViewModel LongActings { get; set; }
 
         public double RadarDiameter { get; set; } = 120 * 2;
@@ -114,7 +164,9 @@ namespace BaseWpfCore
 
         #region Public Commands
 
-        // The command to generate the infographic
+        /// <summary>
+        /// The command to generate the infographic
+        /// </summary>
         public ICommand RefreshCommand { get; set; }
 
         /// <summary>
@@ -139,24 +191,32 @@ namespace BaseWpfCore
 
         public ContainerViewModel()
         {
-            MorningOrNight = AMPMEnum.PM;
+            /// Set the AM and PM setting to AM
+            MorningOrNight = AMPMEnum.AM;
 
+            /// Load the User Records ( TODO:currently dummy data)
             UserRecordings = new UserRecordingsDataModel();
 
-            // The command to generate the infographic
+            ///
+            /// Initialize the Relay Commands
+            /// 
+            
+            /// The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
 
+            /// Command to toggle between AM and PM
             ToggleAmAndPmCommand = new RelayCommand(ToggleAmAndPm);
 
+            /// Command to jump back 12 hours
             GoBack12HoursCommand = new RelayCommand(GoBack12Hours);
 
+            /// Command to jump forward 12 hours
             GoForward12HoursCommand = new RelayCommand(GoForward12Hours);
 
+            /// Set the current date to today's date
             CurrentDateToShow = DateTime.Now;
 
-            
-
-            // Calls the refresh method to generate the infographic
+            /// Calls the refresh method to generate the infographic
             Refresh();
         }
 
@@ -164,29 +224,48 @@ namespace BaseWpfCore
 
         #region Helping Methods
 
+        /// <summary>
+        /// change the infographic to 12 hours previous
+        /// </summary>
         public void GoBack12Hours()
         {
+            /// Check if it is morning, if so, then make the current day, yesterday
             if (MorningOrNight == AMPMEnum.AM)
             {
                 CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
             }
+
+            /// Command to toggle between AM and PM
             ToggleAmAndPm();
+
+            /// Calls the refresh method to generate the infographic
             Refresh();
         }
 
+        /// <summary>
+        /// change the infographic to 12 hours forward in time
+        /// </summary>
         public void GoForward12Hours()
         {
+            /// Check if it is afternoon, if so, then make the current day, tomorrow
             if (MorningOrNight == AMPMEnum.PM)
             {
                 CurrentDateToShow = CurrentDateToShow.AddDays(1);
             }
+
+            /// Command to toggle between AM and PM
             ToggleAmAndPm();
+
+            /// Calls the refresh method to generate the infographic
             Refresh();
         }
 
+        /// <summary>
+        /// Switches the AM and PM property...
+        /// </summary>
         public void ToggleAmAndPm()
         {
-            // ToDo: I know there is a better way to do this
+            /// ToDo: I know there is a better way to do this
 
             if (MorningOrNight == AMPMEnum.AM) { MorningOrNight = AMPMEnum.PM; }
             else { MorningOrNight = AMPMEnum.AM; }
@@ -201,16 +280,16 @@ namespace BaseWpfCore
             UserRecordings = new UserRecordingsDataModel();
 
 
-            // Create a new background property
+            /// Create a new background property
             BackGround = new BackgroundRadialGraphicViewModel();
 
-            // Add outside ring to background
+            /// Add outside ring to background
             AddWhiteOutsideRingToBackground();
 
-            // add radar graphic to background
+            /// add radar graphic to background
             AddRadarGraphicToBackground();
 
-            // add foreground stuff to MainBadges
+            /// add foreground stuff to MainBadges
             AddForgroundGraphicStuff();
         }
 
@@ -221,7 +300,7 @@ namespace BaseWpfCore
         /// 
         private void AddWhiteOutsideRingToBackground()
         {
-            // create a ring given the inner and out radii and assign a color
+            /// create a ring given the inner and out radii and assign a color
             var whiteBackgroundRing = new RingFullFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -233,24 +312,24 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.White,
             };
 
-            // Populate the ring by adding each ring segment to each other 
-            // with varying x and y values
+            /// Populate the ring by adding each ring segment to each other 
+            /// with varying x and y values
             whiteBackgroundRing.PopulateRadialGraphicSegmentsProperty();
 
-            // Add the Ring to the Background
+            /// Add the Ring to the Background
             BackGround.AddGraphics(whiteBackgroundRing);
         }
 
         ///
-        /// Method to: Add rador graphic to background
+        /// Method to: Add radar graphic to background
         /// 
         private void AddRadarGraphicToBackground()
         {
-            // create new radar graphic based on the base circular 
-            // graphic view model
+            /// create new radar graphic based on the base circular 
+            /// graphic view model
             RadarGraphic = new BaseRadialGraphicViewModel();
 
-            // Create crosshairs graphic out of RadialLines view model
+            /// Create crosshairs graphic out of RadialLines view model
             var crosshairsGraphic = new RadialLinesViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -266,31 +345,29 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
-            // generate graphic items for crosshairs
+            /// generate graphic items for crosshairs
             crosshairsGraphic.PopulateRadialGraphicSegmentsProperty();
 
-            // Add crosshairs graphic to radar graphics
+            /// Add crosshairs graphic to radar graphics
             RadarGraphic.AddGraphics(crosshairsGraphic);
 
-            // generate graphic for innermost circle of the radar
+            /// generate graphic for innermost circle of the radar
             var innerRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-
                 InnerRadius = 30,
                 OuterRadius = 33,
-
                 GraphicsColor = BadgeColor.Green,
             };
 
-            // populate the pieces to build the graphic
+            /// populate the pieces to build the graphic
             innerRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            // add the innerRadarCircle to the RadarGraphic
+            /// add the innerRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(innerRadarCircle);
 
-            // generate graphic for middle circle of the radar
+            /// generate graphic for middle circle of the radar
             var middleRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -300,13 +377,13 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
-            // populate the pieces to build the graphic
+            /// populate the pieces to build the graphic
             middleRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            // add the middleRadarCircle to the RadarGraphic
+            /// add the middleRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(middleRadarCircle);
 
-            // generate graphic for outermost circle of the radar
+            /// generate graphic for outermost circle of the radar
             var outsideRadarCircle = new CircleFullLineViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -316,13 +393,13 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Green,
             };
 
-            // populate the pieces to build the graphic
+            /// populate the pieces to build the graphic
             outsideRadarCircle.PopulateRadialGraphicSegmentsProperty();
 
-            // add the outesideRadarCircle to the RadarGraphic
+            /// add the outesideRadarCircle to the RadarGraphic
             RadarGraphic.AddGraphics(outsideRadarCircle);
 
-            // add the complete radar graphic to the background
+            /// add the complete radar graphic to the background
             BackGround.AddGraphics(RadarGraphic);
         }
 
@@ -353,13 +430,17 @@ namespace BaseWpfCore
                 GraphicsColor = (BadgeColor)BadgeColor.Blue,
             };
 
-            // populate the pieces to build the graphic
+            /// populate the pieces to build the graphic
             MainBadges.PopulateRadialGraphicSegmentsProperty();
 
+            /// add the users recordings to the infographic
+            /// to this 12 hour time period
             PopulateBadgesWithGlucoseRecordings(MainBadges);
 
-            // Generate random glucose levels, carb intake levels
-            // and colors for the container fill
+
+            /// TODO: this needs to go
+            /// Generate random glucose levels, carb intake levels
+            /// and colors for the container fill
             var rand = new Random();
 
             MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
@@ -478,7 +559,6 @@ namespace BaseWpfCore
 
         public void PopulateBadgesWithGlucoseRecordings(BaseRadialGraphicViewModel mainBadges)
         {
-            
             int starttime = InfographicStartTime.Hour * 60;
 
             var mostRecentGlucoseBackgroundColor = BadgeColor.Black;
@@ -497,19 +577,16 @@ namespace BaseWpfCore
                             decimal gl = (decimal)glucoseRecording.GlucoseLevel / 10;
                             timeSegment.GlucoseLevel = string.Format("{0:F1}", gl);
                             glucoseMatch = true;
-                            
+
                             if (gl < 5) { timeSegment.BadgeColor = BadgeColor.White; }
                             else if (gl < 8) { timeSegment.BadgeColor = BadgeColor.Blue; }
                             else if (gl < 11) { timeSegment.BadgeColor = BadgeColor.Pink; }
                             else { timeSegment.BadgeColor = BadgeColor.Red; }
 
                             mostRecentGlucoseBackgroundColor = timeSegment.BadgeColor;
-
-
                         }
                     }
-                    
-                }
+                                    }
                 if (!glucoseMatch)
                 {
                     timeSegment.BadgeColor = mostRecentGlucoseBackgroundColor;
@@ -529,7 +606,6 @@ namespace BaseWpfCore
                             carbMatch = true;
                         }
                     }
-
                 }
                 if (!carbMatch)
                 {
