@@ -4,16 +4,16 @@ using System.Text;
 
 namespace BaseWpfCore
 {
-    public class CircleFullLineViewModel : BaseRadialGraphicViewModel
+    public class ArcLineViewModel : BaseRadialGraphicViewModel
     {
-        public CircleFullLineViewModel()
+        public ArcLineViewModel()
         {
             NumberOfGroups = 1;
+            // should NumberOfChildrenInGroup be 1 or is that 
+            // only used if it extends past 180 degrees
             NumberOfChildrenInGroup = 2;
             ChildClearance = 0;
             GroupClearance = 0;
-            FullAngleFrom = 0;
-            FullAngleTo = 360;
-        }
+                    }
     }
 }
