@@ -34,8 +34,15 @@ namespace BaseWpfCore
             {
                 if (value != null)
                 {
+                    var t = Math.Abs(mCurrentDateToShow.Ticks - value.Ticks);
+                    var d = TimeSpan.FromTicks(t).TotalHours;
+                    if (d > 24)
+                    {
+                        MorningOrNight = AMPMEnum.AM;
+                    }
                     mCurrentDateToShow = value;
-                    DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy") + " " + MorningOrNight.ToString();
+                    DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
+                        + " " + MorningOrNight.ToString();
                     Refresh();
                 }
                 else mCurrentDateToShow = DateTime.Now;
@@ -56,7 +63,8 @@ namespace BaseWpfCore
                     InfographicStartTime = new DateTime(2019, 12, 12, 0, 0, 0);
                 }
                 else InfographicStartTime = new DateTime(2019, 12, 12, 12, 0, 0);
-                DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy") + " " + MorningOrNight.ToString();
+                DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
+                    + " " + MorningOrNight.ToString();
                    
                 Refresh();
             }

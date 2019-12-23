@@ -36,6 +36,118 @@ namespace BaseWpfCore
         {
             GlucoseLevelRecordings = new List<GlucoseLevelRecordingDataModel>
             {
+                ///
+                /// readings for dec 20 2019
+                ///
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 20, 1, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 20, 3, 30, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 20, 7, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 20, 10, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 20, 13, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 20, 16, 18, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 20, 19, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 20, 22, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                ///
+                /// readings for dec 21 2019
+                ///
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 21, 2, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 21, 4, 30, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 21, 8, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 21, 11, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 21, 14, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 21, 17, 18, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 21, 20, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 21, 21, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },///
+                /// readings for dec 22 2019
+                ///
                 new GlucoseLevelRecordingDataModel
                 {
                     GlucoseLevel = 50,
@@ -47,6 +159,100 @@ namespace BaseWpfCore
                 {
                     GlucoseLevel = 67,
                     StartTime = new DateTime(2019, 12, 22, 3, 30, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 22, 7, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 22, 10, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 22, 13, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 22, 16, 18, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 22, 19, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 22, 22, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                ///
+                /// readings for dec 23 2019
+                ///
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 23, 2, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 23, 4, 30, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 23, 8, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 23, 11, 31, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 23, 14, 15, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 23, 17, 18, 0),
+                    Duration = new TimeSpan(0,0,1)
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 50,
+                    StartTime = new DateTime(2019, 12, 23, 20, 05, 0),
+                    Duration = new TimeSpan(0,0,1)
+
+                },
+                new GlucoseLevelRecordingDataModel
+                {
+                    GlucoseLevel = 67,
+                    StartTime = new DateTime(2019, 12, 23, 21, 31, 0),
                     Duration = new TimeSpan(0,0,1)
                 }
 

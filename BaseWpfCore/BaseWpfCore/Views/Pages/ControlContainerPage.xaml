@@ -38,10 +38,16 @@
             datepicker on the page to the ContainerViewModel to update 
             the current display date -->
             <!--SelectedDateChanged={Binding DateChanged}"/>-->
-            <Button Grid.Column="2" FontSize="18" FontWeight="Bold"
+            
+            <!--<Button Grid.Column="2" FontSize="18" FontWeight="Bold"
                     Background="LimeGreen"
                     Content="{Binding MorningOrNight, 
                 Converter={local:AMAndPMToButtonContentConverter}}"
+                    Command="{Binding ToggleAmAndPmCommand}"
+                    >-->
+            <Button Grid.Column="2" FontSize="18" FontWeight="Bold"
+                    Background="LimeGreen"
+                    Content="AM or PM"
                     Command="{Binding ToggleAmAndPmCommand}"
                     >
 
