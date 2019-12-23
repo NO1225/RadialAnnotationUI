@@ -200,7 +200,7 @@ namespace BaseWpfCore
             ///
             /// Initialize the Relay Commands
             /// 
-            
+
             /// The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
 
@@ -494,8 +494,12 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.Red,
             };
 
+            /// populate the pieces to build the graphic
             ShortActings.PopulateRadialGraphicSegmentsProperty();
 
+            ///
+            /// Start the Long Acting Lines added to the infographic
+            /// 
             LongActings = new BaseRadialGraphicViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -511,12 +515,18 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.White,
             };
 
+            /// populate the pieces to build the graphic
             LongActings.PopulateRadialGraphicSegmentsProperty();
 
+            /// add main badges, short and long term insulin
+            /// graphics to main foreground graphic
             ForeGround.AddGraphics(MainBadges);
             ForeGround.AddGraphics(ShortActings);
             ForeGround.AddGraphics(LongActings);
 
+            ///
+            /// Start the clock arm graphic added to the infographic
+            /// 
             var mainNeedle = new PizzaSliceFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -527,10 +537,15 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.White,
             };
 
+            /// populate the pieces to build the graphic
             mainNeedle.PopulateRadialGraphicSegmentsProperty();
 
+            /// Add the clock arm needle graphic to the foreground
             ForeGround.RadialGraphicSegments.Add(mainNeedle.RadialGraphicSegments.First());
 
+            ///
+            /// Start the solid white circle in the middle, added to the infographic
+            /// 
             var centerCircle = new CircleFullFilledViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -539,10 +554,14 @@ namespace BaseWpfCore
                 GraphicsColor = BadgeColor.White,
             };
 
+            /// populate the pieces to build the graphic
             centerCircle.PopulateRadialGraphicSegmentsProperty();
 
+            /// Add the solid white circle in the middle to the foreground
             ForeGround.AddGraphics(centerCircle);
 
+            /// TODO: lol, then I just change the foreground back into mainBadges...
+            /// needs to be changed
             MainBadges = ForeGround;
         }
 
@@ -556,62 +575,124 @@ namespace BaseWpfCore
             return Math.PI * angle / 180.0;
         }
 
+        /// <summary>
+        /// iterates through the User Recordings and populates the individual time segments 
+        /// with glucose readings, background colors (depending on glucose reading), carb
+        /// intake readings, 
+        /// TODO: Need to add the populating for exersize, short term insulin, and long
+        /// term insulin
+        /// </summary>
+        /// <param name="mainBadges"></param>
+        /// 
 
+        /// ************************************************************
+        /// **************** Adding the glucose part... ****************
+        /// ************************************************************
         public void PopulateBadgesWithGlucoseRecordings(BaseRadialGraphicViewModel mainBadges)
         {
+            /// converts the start time hour (either 00 or 12) to minutes
             int starttime = InfographicStartTime.Hour * 60;
 
+            /// sets the first background color to black
             var mostRecentGlucoseBackgroundColor = BadgeColor.Black;
 
+            /// iterate through all the time segments currently being shown on the infographic
             foreach (BaseRadialGraphicSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
             {
+                /// set the glucose match flag to false
                 var glucoseMatch = false;
+
+                /// iterate through all the glucose recordings in the user's UserRecordingsDataModel
                 foreach (GlucoseLevelRecordingDataModel glucoseRecording in UserRecordings.GlucoseLevelRecordings)
                 {
-                    // check to see if the date matches 
+                    /// check to see if the date of the user recording matches the date of the time segment
                     if (glucoseRecording.StartTime.Date == CurrentDateToShow.Date)
                     {
+
+                        /// convert the time of the recording into minutes
                         int glucoseTime = glucoseRecording.StartTime.Hour * 60 + glucoseRecording.StartTime.Minute;
+
+                        /// if the time of the glucose recording is within the start and 
+                        /// end time of the time segment then continue
                         if (glucoseTime >= starttime && glucoseTime < starttime + 12)
                         {
+                            /// converts the glucose reading in the record into a decimal
+                            /// (it is stored as an integer, so every recording is multiplied
+                            /// by 10 for storage... It must be converted back into a one 
+                            /// decimal place decimal from integer
                             decimal gl = (decimal)glucoseRecording.GlucoseLevel / 10;
+
+                            /// convert the new decimal glucose level reading into a string
+                            /// with one decimal place
                             timeSegment.GlucoseLevel = string.Format("{0:F1}", gl);
+
+                            /// set the glucose match flag so that we can change the background
+                            /// color for all future time segments until we find another reading
                             glucoseMatch = true;
 
+                            ///
+                            /// 4 if/else statements to set the background color of the time segment
+                            /// depending on the glucose level reading... ToDO: This should be somewhere 
+                            /// else, maybe in a settings page for a particular user
                             if (gl < 5) { timeSegment.BadgeColor = BadgeColor.White; }
                             else if (gl < 8) { timeSegment.BadgeColor = BadgeColor.Blue; }
                             else if (gl < 11) { timeSegment.BadgeColor = BadgeColor.Pink; }
                             else { timeSegment.BadgeColor = BadgeColor.Red; }
 
+                            /// change the background color for all future time segments to this color.
+                            /// it will stay this way until we find another recording.
                             mostRecentGlucoseBackgroundColor = timeSegment.BadgeColor;
                         }
                     }
-                                    }
+                }
+
+                /// If we didn't find a match...
                 if (!glucoseMatch)
                 {
+                    /// set the background color of the time segment to the most recent one
                     timeSegment.BadgeColor = mostRecentGlucoseBackgroundColor;
+
+                    /// set the text of the time segment to nothing, there wasn't a reading.
                     timeSegment.GlucoseLevel = "";
                 }
 
+                /// ************************************************************
+                /// **************** Adding the carb intake part... ************
+                /// ************************************************************
+                /// 
+
+                /// Set the carb intake match flag to false
                 var carbMatch = false;
+
+                /// iterate through all the carb intake recordings in the user's UserRecordingsDataModel
                 foreach (CarbIntakeRecordingDataModel carbRecording in UserRecordings.CarbIntakeRecordings)
                 {
-                    // check to see if the date matches 
+                    /// Check to see if the recording happened on the day of this time segment
                     if (carbRecording.StartTime.Date == CurrentDateToShow.Date)
                     {
+                        /// convert the time of the recording to minutes
                         int carbTime = carbRecording.StartTime.Hour * 60 + carbRecording.StartTime.Minute;
+
+                        /// if the recording falls in this 12 minute segment we are looking at...
                         if (carbTime >= starttime && carbTime < starttime + 12)
                         {
+                            /// Add the text to the time segment carb text
                             timeSegment.CarbAmount = carbRecording.CarbIntakeAmount.ToString();
+
+                            /// set the 'found a carb intake that matches' flag to true
                             carbMatch = true;
                         }
                     }
                 }
+
+                /// if there was no recording of carb intake in this time segment, set the 
+                /// text to blank
                 if (!carbMatch)
                 {
                     timeSegment.CarbAmount = "";
                 }
 
+                /// set the start time to the start time of the next infographic so we can check the next day
                 starttime = starttime + 12;
             }
         }
