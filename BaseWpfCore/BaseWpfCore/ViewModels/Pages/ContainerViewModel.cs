@@ -237,7 +237,6 @@ namespace BaseWpfCore
             ///
             /// Initialize the Relay Commands
             /// 
-
             /// The command to generate the infographic
             RefreshCommand = new RelayCommand(Refresh);
 
@@ -249,7 +248,6 @@ namespace BaseWpfCore
 
             /// Command to jump back 12 hours
             GoBack24HoursCommand = new RelayCommand(GoBack24Hours);
-
 
             /// Command to jump forward 12 hours
             GoForward12HoursCommand = new RelayCommand(GoForward12Hours);
@@ -638,58 +636,12 @@ namespace BaseWpfCore
             }
             );
 
+            /// populate the pieces to build the graphic
             PopulateBadgesWithGlucoseRecordings(MainBadges);
 
-            /////
-            ///// Add the hour time stamps to the infographic
-            ///// 
-            //var HourContainers = new HourContainerViewModel()
-            //{
-            //    ContainerHeight = this.ContainerHeight,
-            //    ContainerWidth = this.ContainerWidth,
-            //    NumberOfGroups = 1,
-            //    NumberOfChildrenInGroup = 12,
-            //    ChildClearance = 10,
-            //    GroupClearance = 0,
-            //    InnerRadius = 200,
-            //    OuterRadius = 220,
-            //    FullAngleFrom = 20,
-            //    FullAngleTo = 360,
-            //    GraphicsColor = (BadgeColor)BadgeColor.Blue,
-            //};
-
-            // populate the pieces to build the graphic
-            //HourContainers.PopulateRadialGraphicSegmentsProperty();
-
-            //MainBadges.AddGraphics(HourContainers);
-
-            /////
-            ///// Start the Short Acting Lines added to the infographic
-            ///// 
-            //ShortActings = new BaseRadialGraphicViewModel()
-            //{
-            //    ContainerHeight = this.ContainerHeight,
-            //    ContainerWidth = this.ContainerWidth,
-            //    NumberOfGroups = 1,
-            //    NumberOfChildrenInGroup = 2,
-            //    ChildClearance = 0,
-            //    GroupClearance = 0,
-            //    InnerRadius = 105,
-            //    OuterRadius = 108,
-            //    FullAngleFrom = 0,
-            //    FullAngleTo = 180,
-            //    GraphicsColor = BadgeColor.White,
-            //};
-
-
-
-            ///// populate the pieces to build the graphic
-            //ShortActings.PopulateRadialGraphicSegmentsProperty();
-
-
+            /// call the method to add the short term insulin arcs to the 
+            /// foreground
             CreateShortTermInsulin();
-
-
 
             ///
             /// Start the Long Acting Lines added to the infographic
@@ -715,7 +667,6 @@ namespace BaseWpfCore
             /// add main badges, short and long term insulin
             /// graphics to main foreground graphic
             ForeGround.AddGraphics(MainBadges);
-
             ForeGround.AddGraphics(LongActings);
             ForeGround.AddGraphics(MinimumIntensityExersizeArcs);
             ForeGround.AddGraphics(LowIntensityExersizeArcs);
@@ -784,7 +735,6 @@ namespace BaseWpfCore
         /// </summary>
         /// <param name="mainBadges"></param>
         /// 
-
         /// ************************************************************
         /// **************** Adding the glucose part... ****************
         /// ************************************************************
@@ -808,7 +758,6 @@ namespace BaseWpfCore
                     /// check to see if the date of the user recording matches the date of the time segment
                     if (glucoseRecording.StartTime.Date == CurrentDateToShow.Date)
                     {
-
                         /// convert the time of the recording into minutes
                         int glucoseTime = glucoseRecording.StartTime.Hour * 60 + glucoseRecording.StartTime.Minute;
 
@@ -830,7 +779,6 @@ namespace BaseWpfCore
                             /// color for all future time segments until we find another reading
                             glucoseMatch = true;
 
-                            ///
                             /// 4 if/else statements to set the background color of the time segment
                             /// depending on the glucose level reading... ToDO: This should be somewhere 
                             /// else, maybe in a settings page for a particular user
@@ -845,7 +793,6 @@ namespace BaseWpfCore
                         }
                     }
                 }
-
                 /// If we didn't find a match...
                 if (!glucoseMatch)
                 {
@@ -855,7 +802,6 @@ namespace BaseWpfCore
                     /// set the text of the time segment to nothing, there wasn't a reading.
                     timeSegment.GlucoseLevel = "";
                 }
-
                 /// ************************************************************
                 /// **************** Adding the carb intake part... ************
                 /// ************************************************************
@@ -889,6 +835,7 @@ namespace BaseWpfCore
                 /// text to blank
                 if (!carbMatch)
                 {
+                    /// if there isn't a carb reading for this time segment make the text blank
                     timeSegment.CarbAmount = "";
                 }
 
@@ -906,7 +853,6 @@ namespace BaseWpfCore
         /// </summary>
         /// <param name="mainBadges"></param>
         /// 
-
         /// ************************************************************
         /// **************** set color for exersize arcs ****************
         /// ************************************************************
@@ -925,17 +871,19 @@ namespace BaseWpfCore
                 /// iterate through all the glucose recordings in the user's UserRecordingsDataModel
                 foreach (ExersizeRecordingDataModel exersizeRecording in UserRecordings.ExersizeRecordings)
                 {
+                    /// check to see if the arc is necessary, depending on the level of exersize intensity
                     if (exersizeRecording.Quality >= quality)
                     {
                         /// check to see if the date of the user recording matches the date of the time segment
                         if (exersizeRecording.StartTime.Date == CurrentDateToShow.Date)
                         {
-
                             /// convert the time of the recording into minutes
                             int exersizeStartTime = exersizeRecording.StartTime.Hour * 60 + exersizeRecording.StartTime.Minute;
 
+                            /// convert the start time + duration into minutes
                             int exersizeEndTime = exersizeStartTime + (int)exersizeRecording.Duration.TotalMinutes;
 
+                            /// boolean flag
                             var changeExersizeColor = false;
 
                             /// if the time of the glucose recording is within the start and 
@@ -944,71 +892,85 @@ namespace BaseWpfCore
                             {
                                 changeExersizeColor = true;
                             }
-
+                            /// I think that this and the If statement above can probably be combined
                             if (changeExersizeColor)
                             {
+                                /// change the color from black to lime green to indicate 
+                                /// that there is an exersize property in this time segment
                                 timeSegment.BadgeColor = BadgeColor.LimeGreen;
                             }
-
-
                         }
                     }
-
                 }
+                /// move the start time to the next time segment
                 starttime = starttime + 12;
             }
-
-            /// set the start time to the start time of the next infographic so we can check the next day
-
         }
 
+        /// <summary>
+        /// method to create a small arc in each time segment that will make up a long
+        /// arc that displays the insulin in the system.  The arc starts off as a solid
+        /// line and then turns into a slowly diminishing dotted line depending on
+        /// how effective the insulin is in the system over time.
+        /// </summary>
         public void CreateShortTermInsulin()
         {
-
-
             /// converts the start time hour (either 00 or 12) to minutes
             int starttime = InfographicStartTime.Hour * 60;
 
+            /// iterate through all the insulin recordings in the user's recordings
             foreach (ShortTermInsulinRecordingDataModel insulinRecording in UserRecordings.ShortTermInsulinRecordings)
             {
                 /// check to see if the date of the user recording matches the date of the time segment
                 if (insulinRecording.StartTime.Date == CurrentDateToShow.Date)
                 {
+                    /// check to see if we are in the correct am/pm time period
                     if ((insulinRecording.StartTime.Hour < 12 && MorningOrNight == AMPMEnum.AM
                         || insulinRecording.StartTime.Hour >= 12 && MorningOrNight == AMPMEnum.PM))
-                        {
+                    {
+                        /// iterate through all the minutes segments in the 12 hour period
+                        /// incrementing in 12 minute periods
                         for (var minutes = 0; minutes < 720; minutes += 12)
                         {
 
                             /// convert the time of the recording into minutes
                             var insulinStartTime = insulinRecording.StartTime.Hour * 60 + insulinRecording.StartTime.Minute;
 
+                            /// convert the insulin recording duration into minutes
                             var duration = (int)insulinRecording.Duration.TotalMinutes;
 
+                            /// figure out the time the insulin will wear off 100%
+                            /// in minutes
                             var insulinEndTime = insulinStartTime + duration;
 
+                            /// the small piece of arc that makes up the big ar
                             ArcLineViewModel arcLineRadialGraphicSegment;
 
+                            /// private variable
                             PercentageOfInsulinEffectiveness effectiveness;
 
-                            /// figure out if it is in the first 30% of the effectiveness of
+                            /// figure out if it is in the first 40% of the effectiveness of
                             /// the insulin
                             if (minutes < insulinStartTime + duration * .4)
                             {
                                 effectiveness = PercentageOfInsulinEffectiveness.MaximumEffectiveness;
                             }
+                            /// if not first 40%, check to see if it is in the next 30%
                             else if (minutes < insulinStartTime + duration * .7)
                             {
                                 effectiveness = PercentageOfInsulinEffectiveness.PartialEffectiveness;
                             }
+                            /// finally assign a level of minimum effectiveness
                             else
                             {
                                 effectiveness = PercentageOfInsulinEffectiveness.MinimumEffectiveness;
                             }
 
-
+                            /// check to see if the current time segment is inside
+                            /// the insulin reading start and end time
                             if (minutes >= insulinStartTime && minutes <= insulinEndTime)
                             {
+                                /// create a new arc segment to fill this time segment
                                 arcLineRadialGraphicSegment =
                                     new ArcLineViewModel()
                                     {
@@ -1024,22 +986,20 @@ namespace BaseWpfCore
                                         FullAngleTo = minutes / 12 * 6 + 6 - (int)effectiveness,
                                         GraphicsColor = BadgeColor.White
                                     };
-                                var tempFullAngleFrom = minutes / 12 * 5 + (int)effectiveness;
-                                var tempFullAngleTo = minutes / 12 * 5 + 5 - (int)effectiveness;
-                                var length = tempFullAngleTo - tempFullAngleFrom;
+                                /// generate the arcRadialGraphicSegment for this time segment
                                 arcLineRadialGraphicSegment.PopulateRadialGraphicSegmentsProperty();
+
+                                /// if it isn't null, which it shouldn't be
                                 if (arcLineRadialGraphicSegment != null)
                                 {
+                                    /// add the arc to the foreground
                                     ForeGround.AddGraphics(arcLineRadialGraphicSegment);
                                 }
-
                             }
                         }
                     }
                 }
             }
-
-
         }
     }
 
