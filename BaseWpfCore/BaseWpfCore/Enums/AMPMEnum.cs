@@ -6,8 +6,8 @@ namespace BaseWpfCore
 {
     public enum AMPMEnum
     {
-        AM = 1,
+        AM = 0,
         
-        PM = 2
+        PM = 1
     }
 }

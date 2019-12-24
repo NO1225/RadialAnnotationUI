@@ -21,5 +21,7 @@ namespace BaseWpfCore
         Red = 6,
 
         Green = 7,
+
+        LimeGreen = 8,
     }
 }

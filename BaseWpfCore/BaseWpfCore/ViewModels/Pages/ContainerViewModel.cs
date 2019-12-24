@@ -141,6 +141,31 @@ namespace BaseWpfCore
         public BaseRadialGraphicViewModel MainBadges { get; set; }
 
         /// <summary>
+        /// The LineArcs that represent minimum intensity Exersize
+        /// </summary>
+        public BaseRadialGraphicViewModel MinimumIntensityExersizeArcs { get; set; }
+
+        /// <summary>
+        /// The outside LineArcs that represent low intensity Exersize
+        /// </summary>
+        public BaseRadialGraphicViewModel LowIntensityExersizeArcs { get; set; }
+
+        /// <summary>
+        /// The LineArcs that represent medium intensity Exersize
+        /// </summary>
+        public BaseRadialGraphicViewModel MediumIntensityExersizeArcs { get; set; }
+
+        /// <summary>
+        /// The LineArcs that represent High intensity Exersize
+        /// </summary>
+        public BaseRadialGraphicViewModel HighIntensityExersizeArcs { get; set; }
+
+        /// <summary>
+        /// The LineArcs that represent maximum intensity Exersize
+        /// </summary>
+        public BaseRadialGraphicViewModel MaximumIntensityExersizeArcs { get; set; }
+
+        /// <summary>
         /// The outside LineArcs that represent short term insulin availability
         /// </summary>
         public BaseRadialGraphicViewModel ShortActings { get; set; }
@@ -353,7 +378,7 @@ namespace BaseWpfCore
                 NumberOfChildrenInGroup = 1,
                 InnerRadius = 121,
                 OuterRadius = 169,
-                GraphicsColor = BadgeColor.White,
+                GraphicsColor = BadgeColor.Yellow,
             };
 
             /// Populate the ring by adding each ring segment to each other 
@@ -481,6 +506,124 @@ namespace BaseWpfCore
             /// to this 12 hour time period
             PopulateBadgesWithGlucoseRecordings(MainBadges);
 
+            /// ************************************************************
+            /// ***************** Adding the exersize arcs *****************
+            /// ************************************************************
+            /// 
+            /// Add the minimum intensity exersize rings
+            MinimumIntensityExersizeArcs = new BaseRadialGraphicViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 12,
+                NumberOfChildrenInGroup = 5,
+                ChildClearance = 0,
+                GroupClearance = 0,
+                InnerRadius = 114,
+                OuterRadius = 119,
+                FullAngleFrom = 0,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Black,
+            };
+
+            /// populate the pieces to build the graphic
+            MinimumIntensityExersizeArcs.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users exersize to the infographic
+            /// to this 12 hour time period
+            PopulateBadgesWithExersizeRecordings(MinimumIntensityExersizeArcs, ExersizeQualityEnum.MinimumIntensity);
+
+            /// Add the low intensity exersize rings
+            LowIntensityExersizeArcs = new BaseRadialGraphicViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 12,
+                NumberOfChildrenInGroup = 5,
+                ChildClearance = 0,
+                GroupClearance = 0,
+                InnerRadius = 95,
+                OuterRadius = 100,
+                FullAngleFrom = 0,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Black,
+            };
+
+            /// populate the pieces to build the graphic
+            LowIntensityExersizeArcs.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users exersize to the infographic
+            /// to this 12 hour time period
+            PopulateBadgesWithExersizeRecordings(LowIntensityExersizeArcs, ExersizeQualityEnum.LowIntensity);
+
+            /// Add the medium intensity exersize rings
+            MediumIntensityExersizeArcs = new BaseRadialGraphicViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 12,
+                NumberOfChildrenInGroup = 5,
+                ChildClearance = 0,
+                GroupClearance = 0,
+                InnerRadius = 75,
+                OuterRadius = 80,
+                FullAngleFrom = 0,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Black,
+            };
+
+            /// populate the pieces to build the graphic
+            MediumIntensityExersizeArcs.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users exersize to the infographic
+            /// to this 12 hour time period
+            PopulateBadgesWithExersizeRecordings(MediumIntensityExersizeArcs, ExersizeQualityEnum.MediumIntensity);
+
+            /// Add the high intensity exersize rings
+            HighIntensityExersizeArcs = new BaseRadialGraphicViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 12,
+                NumberOfChildrenInGroup = 5,
+                ChildClearance = 0,
+                GroupClearance = 0,
+                InnerRadius = 54,
+                OuterRadius = 59,
+                FullAngleFrom = 0,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Black,
+            };
+
+            /// populate the pieces to build the graphic
+            HighIntensityExersizeArcs.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users exersize to the infographic
+            /// to this 12 hour time period
+            PopulateBadgesWithExersizeRecordings(HighIntensityExersizeArcs, ExersizeQualityEnum.HighIntensity);
+
+            /// Add the maximum intensity exersize rings
+            MaximumIntensityExersizeArcs = new BaseRadialGraphicViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                NumberOfGroups = 12,
+                NumberOfChildrenInGroup = 5,
+                ChildClearance = 0,
+                GroupClearance = 0,
+                InnerRadius = 34,
+                OuterRadius = 39,
+                FullAngleFrom = 0,
+                FullAngleTo = 360,
+                GraphicsColor = (BadgeColor)BadgeColor.Black,
+            };
+
+            /// populate the pieces to build the graphic
+            MaximumIntensityExersizeArcs.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users exersize to the infographic
+            /// to this 12 hour time period
+            PopulateBadgesWithExersizeRecordings(MaximumIntensityExersizeArcs, ExersizeQualityEnum.MaximumIntensity);
 
             /// TODO: this needs to go
             /// Generate random glucose levels, carb intake levels
@@ -520,26 +663,33 @@ namespace BaseWpfCore
 
             //MainBadges.AddGraphics(HourContainers);
 
-            ///
-            /// Start the Short Acting Lines added to the infographic
-            /// 
-            ShortActings = new BaseRadialGraphicViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
-                InnerRadius = 98,
-                OuterRadius = 100,
-                FullAngleFrom = 0,
-                FullAngleTo = 180,
-                GraphicsColor = BadgeColor.Red,
-            };
+            /////
+            ///// Start the Short Acting Lines added to the infographic
+            ///// 
+            //ShortActings = new BaseRadialGraphicViewModel()
+            //{
+            //    ContainerHeight = this.ContainerHeight,
+            //    ContainerWidth = this.ContainerWidth,
+            //    NumberOfGroups = 1,
+            //    NumberOfChildrenInGroup = 2,
+            //    ChildClearance = 0,
+            //    GroupClearance = 0,
+            //    InnerRadius = 105,
+            //    OuterRadius = 108,
+            //    FullAngleFrom = 0,
+            //    FullAngleTo = 180,
+            //    GraphicsColor = BadgeColor.White,
+            //};
 
-            /// populate the pieces to build the graphic
-            ShortActings.PopulateRadialGraphicSegmentsProperty();
+
+
+            ///// populate the pieces to build the graphic
+            //ShortActings.PopulateRadialGraphicSegmentsProperty();
+
+
+            CreateShortTermInsulin();
+
+
 
             ///
             /// Start the Long Acting Lines added to the infographic
@@ -552,10 +702,10 @@ namespace BaseWpfCore
                 NumberOfChildrenInGroup = 2,
                 ChildClearance = 0,
                 GroupClearance = 0,
-                InnerRadius = 68,
-                OuterRadius = 70,
-                FullAngleFrom = 30,
-                FullAngleTo = 270,
+                InnerRadius = 45,
+                OuterRadius = 48,
+                FullAngleFrom = 5,
+                FullAngleTo = 355,
                 GraphicsColor = BadgeColor.White,
             };
 
@@ -565,8 +715,14 @@ namespace BaseWpfCore
             /// add main badges, short and long term insulin
             /// graphics to main foreground graphic
             ForeGround.AddGraphics(MainBadges);
-            ForeGround.AddGraphics(ShortActings);
+
             ForeGround.AddGraphics(LongActings);
+            ForeGround.AddGraphics(MinimumIntensityExersizeArcs);
+            ForeGround.AddGraphics(LowIntensityExersizeArcs);
+            ForeGround.AddGraphics(MediumIntensityExersizeArcs);
+            ForeGround.AddGraphics(HighIntensityExersizeArcs);
+            ForeGround.AddGraphics(MaximumIntensityExersizeArcs);
+
 
             ///
             /// Start the clock arm graphic added to the infographic
@@ -740,6 +896,154 @@ namespace BaseWpfCore
                 starttime = starttime + 12;
             }
         }
-        #endregion
+
+        /// <summary>
+        /// iterates through the User Recordings and populates the individual time segments 
+        /// with glucose readings, background colors (depending on glucose reading), carb
+        /// intake readings, 
+        /// TODO: Need to add the populating for exersize, short term insulin, and long
+        /// term insulin
+        /// </summary>
+        /// <param name="mainBadges"></param>
+        /// 
+
+        /// ************************************************************
+        /// **************** set color for exersize arcs ****************
+        /// ************************************************************
+        public void PopulateBadgesWithExersizeRecordings(BaseRadialGraphicViewModel exersizeArcs, ExersizeQualityEnum quality)
+        {
+
+            /// converts the start time hour (either 00 or 12) to minutes
+            int starttime = InfographicStartTime.Hour * 60;
+
+            /// iterate through all the time segments currently being shown on the infographic
+            foreach (BaseRadialGraphicSegmentViewModel timeSegment in exersizeArcs.RadialGraphicSegments)
+            {
+                /// set the glucose match flag to false
+                var exersizeMatch = false;
+
+                /// iterate through all the glucose recordings in the user's UserRecordingsDataModel
+                foreach (ExersizeRecordingDataModel exersizeRecording in UserRecordings.ExersizeRecordings)
+                {
+                    if (exersizeRecording.Quality >= quality)
+                    {
+                        /// check to see if the date of the user recording matches the date of the time segment
+                        if (exersizeRecording.StartTime.Date == CurrentDateToShow.Date)
+                        {
+
+                            /// convert the time of the recording into minutes
+                            int exersizeStartTime = exersizeRecording.StartTime.Hour * 60 + exersizeRecording.StartTime.Minute;
+
+                            int exersizeEndTime = exersizeStartTime + (int)exersizeRecording.Duration.TotalMinutes;
+
+                            var changeExersizeColor = false;
+
+                            /// if the time of the glucose recording is within the start and 
+                            /// end time of the time segment then continue
+                            if (starttime >= exersizeStartTime && starttime < exersizeEndTime)
+                            {
+                                changeExersizeColor = true;
+                            }
+
+                            if (changeExersizeColor)
+                            {
+                                timeSegment.BadgeColor = BadgeColor.LimeGreen;
+                            }
+
+
+                        }
+                    }
+
+                }
+                starttime = starttime + 12;
+            }
+
+            /// set the start time to the start time of the next infographic so we can check the next day
+
+        }
+
+        public void CreateShortTermInsulin()
+        {
+
+
+            /// converts the start time hour (either 00 or 12) to minutes
+            int starttime = InfographicStartTime.Hour * 60;
+
+            foreach (ShortTermInsulinRecordingDataModel insulinRecording in UserRecordings.ShortTermInsulinRecordings)
+            {
+                /// check to see if the date of the user recording matches the date of the time segment
+                if (insulinRecording.StartTime.Date == CurrentDateToShow.Date)
+                {
+                    if ((insulinRecording.StartTime.Hour < 12 && MorningOrNight == AMPMEnum.AM
+                        || insulinRecording.StartTime.Hour >= 12 && MorningOrNight == AMPMEnum.PM))
+                        {
+                        for (var minutes = 0; minutes < 720; minutes += 12)
+                        {
+
+                            /// convert the time of the recording into minutes
+                            var insulinStartTime = insulinRecording.StartTime.Hour * 60 + insulinRecording.StartTime.Minute;
+
+                            var duration = (int)insulinRecording.Duration.TotalMinutes;
+
+                            var insulinEndTime = insulinStartTime + duration;
+
+                            ArcLineViewModel arcLineRadialGraphicSegment;
+
+                            PercentageOfInsulinEffectiveness effectiveness;
+
+                            /// figure out if it is in the first 30% of the effectiveness of
+                            /// the insulin
+                            if (minutes < insulinStartTime + duration * .4)
+                            {
+                                effectiveness = PercentageOfInsulinEffectiveness.MaximumEffectiveness;
+                            }
+                            else if (minutes < insulinStartTime + duration * .7)
+                            {
+                                effectiveness = PercentageOfInsulinEffectiveness.PartialEffectiveness;
+                            }
+                            else
+                            {
+                                effectiveness = PercentageOfInsulinEffectiveness.MinimumEffectiveness;
+                            }
+
+
+                            if (minutes >= insulinStartTime && minutes <= insulinEndTime)
+                            {
+                                arcLineRadialGraphicSegment =
+                                    new ArcLineViewModel()
+                                    {
+                                        ContainerHeight = this.ContainerHeight,
+                                        ContainerWidth = this.ContainerWidth,
+                                        NumberOfGroups = 1,
+                                        NumberOfChildrenInGroup = 2,
+                                        ChildClearance = 0,
+                                        GroupClearance = 0,
+                                        InnerRadius = 105,
+                                        OuterRadius = 108,
+                                        FullAngleFrom = minutes / 12 * 6 + (int)effectiveness,
+                                        FullAngleTo = minutes / 12 * 6 + 6 - (int)effectiveness,
+                                        GraphicsColor = BadgeColor.White
+                                    };
+                                var tempFullAngleFrom = minutes / 12 * 5 + (int)effectiveness;
+                                var tempFullAngleTo = minutes / 12 * 5 + 5 - (int)effectiveness;
+                                var length = tempFullAngleTo - tempFullAngleFrom;
+                                arcLineRadialGraphicSegment.PopulateRadialGraphicSegmentsProperty();
+                                if (arcLineRadialGraphicSegment != null)
+                                {
+                                    ForeGround.AddGraphics(arcLineRadialGraphicSegment);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
     }
+
+
+    #endregion
 }
+

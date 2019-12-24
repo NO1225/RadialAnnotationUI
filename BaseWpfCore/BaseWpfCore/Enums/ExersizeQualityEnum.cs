@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BaseWpfCore.Enums
+namespace BaseWpfCore
 {
     public enum ExersizeQualityEnum
     {

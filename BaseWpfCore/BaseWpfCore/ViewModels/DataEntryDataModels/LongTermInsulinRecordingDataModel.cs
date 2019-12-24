@@ -6,7 +6,7 @@ namespace BaseWpfCore
 {
     public class LongTermInsulinRecordingDataModel
     {
-        public int Quantity { get; set; }
+        public int Amount { get; set; }
 
         public DateTime StartTime { get; set; }
 

@@ -281,6 +281,44 @@ namespace BaseWpfCore
 
             };
 
+            ExersizeRecordings = new List<ExersizeRecordingDataModel>
+            {
+                new ExersizeRecordingDataModel
+                {
+                    StartTime = new DateTime(2019, 12, 22, 6, 45, 0),
+                    Duration = new TimeSpan(0,0,180,0),
+                    Quality = ExersizeQualityEnum.MaximumIntensity
+
+                },
+                new ExersizeRecordingDataModel
+                {
+                    StartTime = new DateTime(2019, 12, 23, 4, 15, 0),
+                    Duration = new TimeSpan(0,0,60,0),
+                    Quality = ExersizeQualityEnum.MediumIntensity
+
+                }
+
+            };
+
+            ShortTermInsulinRecordings = new List<ShortTermInsulinRecordingDataModel>
+            {
+                new ShortTermInsulinRecordingDataModel
+                {
+                    StartTime = new DateTime(2019, 12, 22, 0, 45, 0),
+                    Duration = new TimeSpan(0,4,0,0),
+                    Amount = 8
+
+                },
+                new ShortTermInsulinRecordingDataModel
+                {
+                    StartTime = new DateTime(2019, 12, 23, 5, 45, 0),
+                    Duration = new TimeSpan(0,4,0,0),
+                    Amount = 10
+
+                }
+
+            };
+
         }
 
 
