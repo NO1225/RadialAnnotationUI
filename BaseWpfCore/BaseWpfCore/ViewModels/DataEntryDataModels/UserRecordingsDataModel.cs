@@ -302,16 +302,16 @@ namespace BaseWpfCore
 
             ShortTermInsulinRecordings = new List<ShortTermInsulinRecordingDataModel>
             {
-                new ShortTermInsulinRecordingDataModel
-                {
-                    StartTime = new DateTime(2019, 12, 22, 0, 45, 0),
-                    Duration = new TimeSpan(0,4,0,0),
-                    Amount = 8
+                //new ShortTermInsulinRecordingDataModel
+                //{
+                //    StartTime = new DateTime(2019, 12, 22, 0, 45, 0),
+                //    Duration = new TimeSpan(0,4,0,0),
+                //    Amount = 8
 
-                },
+                //},
                 new ShortTermInsulinRecordingDataModel
                 {
-                    StartTime = new DateTime(2019, 12, 23, 5, 45, 0),
+                    StartTime = new DateTime(2019, 12, 23, 22, 45, 0),
                     Duration = new TimeSpan(0,4,0,0),
                     Amount = 10
 

@@ -77,7 +77,8 @@ namespace BaseWpfCore
         public BaseRadialGraphicViewModel()
         {
 
-            PopulateRadialGraphicSegmentsPropertyCommand = new RelayCommand(PopulateRadialGraphicSegmentsProperty);
+            PopulateRadialGraphicSegmentsPropertyCommand = 
+                new RelayCommand(PopulateRadialGraphicSegmentsProperty);
 
             PopulateRadialGraphicSegmentsProperty();
         }
@@ -99,69 +100,75 @@ namespace BaseWpfCore
             // Initiating the annotation
             RadialGraphicSegments = new ObservableCollection<BaseRadialGraphicSegmentViewModel>();
 
-            this.groupAngleSpan = ((this.FullAngleTo - this.FullAngleFrom) / this.NumberOfGroups) - this.GroupClearance * 2;
+            /// The number of degrees each group will extend through after subtracting the
+            /// group clearance before and after the group
+            groupAngleSpan = ((FullAngleTo - FullAngleFrom) / NumberOfGroups) - GroupClearance * 2;
 
-            this.childAngleSpan = (this.groupAngleSpan / this.NumberOfChildrenInGroup) - this.ChildClearance * 2;
+            /// The number of degrees each group child will exted through after subtracting 
+            /// the child clearance before and after the child
+            childAngleSpan = (groupAngleSpan / NumberOfChildrenInGroup) - ChildClearance * 2;
 
-            this.childWidth = Math.Sqrt(2 * Math.Pow(this.OuterRadius, 2) - 2 * Math.Pow(this.OuterRadius, 2) * Math.Cos(DegreeToRadian(this.childAngleSpan)));
+            var AdjacentLinePercentOfHypotenuse = Math.Cos(DegreeToRadian(childAngleSpan));
 
-            var dChild = Math.Sqrt(2 * Math.Pow(this.InnerRadius, 2) - 2 * Math.Pow(this.InnerRadius, 2) * Math.Cos(DegreeToRadian(this.childAngleSpan)));
+            childWidth = Math.Sqrt(2 * Math.Pow(OuterRadius, 2) - 2 * Math.Pow(OuterRadius, 2) * AdjacentLinePercentOfHypotenuse);
 
-            this.childHeight = (this.OuterRadius - this.InnerRadius) + dChild / (2 * Math.Tan(DegreeToRadian(180 - this.childAngleSpan / 2) / 2));
+            var dChild = Math.Sqrt(2 * Math.Pow(InnerRadius, 2) - 2 * Math.Pow(InnerRadius, 2) * AdjacentLinePercentOfHypotenuse);
 
-            this.childCenterX = this.childWidth / 2;
+            childHeight = (OuterRadius - InnerRadius) + dChild / (2 * Math.Tan(DegreeToRadian(180 - childAngleSpan / 2) / 2));
 
-            this.childCenterY = this.OuterRadius;
+            childCenterX = childWidth / 2;
 
-            this.childLeft = this.ContainerWidth / 2 - this.childWidth / 2;
+            childCenterY = OuterRadius;
 
-            this.childTop = (this.ContainerHeight - this.OuterRadius * 2) / 2;
+            childLeft = ContainerWidth / 2 - childCenterX;
 
-            var dOuterChild = Math.Sqrt(2 * Math.Pow(this.OuterRadius, 2) - 2 * Math.Pow(this.OuterRadius, 2) * Math.Cos(DegreeToRadian(this.childAngleSpan)));
+            childTop = (ContainerHeight - OuterRadius * 2) / 2;
 
-            var cChild = dOuterChild / (2 * Math.Tan(DegreeToRadian(180 - this.childAngleSpan / 2) / 2));
+            var dOuterChild = Math.Sqrt(2 * Math.Pow(OuterRadius, 2) - 2 * Math.Pow(OuterRadius, 2) * Math.Cos(DegreeToRadian(childAngleSpan)));
 
-            this.childPoints = new ObservableCollection<Point>()
+            var cChild = dOuterChild / (2 * Math.Tan(DegreeToRadian(180 - childAngleSpan / 2) / 2));
+
+            childPoints = new ObservableCollection<Point>()
             {
                 new Point(0, cChild),
                 new Point(
-                    (this.childWidth-dChild)/2,
-                    this.childHeight),
+                    (childWidth-dChild)/2,
+                    childHeight),
                 new Point(
-                    this.childWidth-(this.childWidth-dChild)/2,
-                    this.childHeight),
+                    childWidth-(childWidth-dChild)/2,
+                    childHeight),
                 new Point(
-                    this.childWidth,
+                    childWidth,
                     cChild),
                 new Point(0,cChild),
             };
 
-            this.childSizes = new ObservableCollection<Size>()
+            childSizes = new ObservableCollection<Size>()
             {
-                new Size(this.InnerRadius,this.InnerRadius),
-                new Size(this.OuterRadius,this.OuterRadius)
+                new Size(InnerRadius,InnerRadius),
+                new Size(OuterRadius,OuterRadius)
             };
 
             // Giving values to the annotation, a minute for every 6 degrees 
-            for (double i = this.FullAngleFrom; i < this.FullAngleTo; i += this.groupAngleSpan + 2 * this.GroupClearance)
+            for (double i = FullAngleFrom; i < FullAngleTo; i += groupAngleSpan + 2 * GroupClearance)
             {
-                for (double j = i; j - (i + this.groupAngleSpan) < -.001; j += this.childAngleSpan + 2 * this.ChildClearance)
+                for (double j = i; j - (i + groupAngleSpan) < -.001; j += childAngleSpan + 2 * ChildClearance)
                 {
                     // Todo: change graphic color below for badge color
                     RadialGraphicSegments.Add(
                         new BaseRadialGraphicSegmentViewModel(
-                            angle: j + this.childAngleSpan / 2 + this.ChildClearance,
+                            angle: j + childAngleSpan / 2 + ChildClearance,
                             //text: (j / 6).ToString(),
                             text: null,
-                            this.childWidth,
-                            this.childHeight,
-                            this.childCenterX,
-                            this.childCenterY,
-                            this.childLeft,
-                            this.childTop,
-                            this.childPoints,
-                            this.childSizes,
-                            this.GraphicsColor
+                            childWidth,
+                            childHeight,
+                            childCenterX,
+                            childCenterY,
+                            childLeft,
+                            childTop,
+                            childPoints,
+                            childSizes,
+                            GraphicsColor
                             )
                         );
                 }

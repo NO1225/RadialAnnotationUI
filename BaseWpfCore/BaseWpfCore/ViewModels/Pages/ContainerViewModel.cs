@@ -641,7 +641,7 @@ namespace BaseWpfCore
 
             /// call the method to add the short term insulin arcs to the 
             /// foreground
-            CreateShortTermInsulin();
+            CreateShortTermInsulinArcs();
 
             ///
             /// Start the Long Acting Lines added to the infographic
@@ -913,7 +913,7 @@ namespace BaseWpfCore
         /// line and then turns into a slowly diminishing dotted line depending on
         /// how effective the insulin is in the system over time.
         /// </summary>
-        public void CreateShortTermInsulin()
+        public void CreateShortTermInsulinArcs()
         {
             /// converts the start time hour (either 00 or 12) to minutes
             int starttime = InfographicStartTime.Hour * 60;
@@ -934,14 +934,14 @@ namespace BaseWpfCore
                         {
 
                             /// convert the time of the recording into minutes
-                            var insulinStartTime = insulinRecording.StartTime.Hour * 60 + insulinRecording.StartTime.Minute;
+                            var insulinStartTime = insulinRecording.StartTime.Hour * 60 + insulinRecording.StartTime.Minute - starttime;
 
                             /// convert the insulin recording duration into minutes
                             var duration = (int)insulinRecording.Duration.TotalMinutes;
 
                             /// figure out the time the insulin will wear off 100%
                             /// in minutes
-                            var insulinEndTime = insulinStartTime + duration;
+                            int insulinEndTime = insulinStartTime + duration;
 
                             /// the small piece of arc that makes up the big ar
                             ArcLineViewModel arcLineRadialGraphicSegment;
