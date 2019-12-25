@@ -132,8 +132,8 @@
                 MinHeight="{Binding ContainerHeight}"
                 >
                 <Border 
-                    Width="{Binding OuterDiameter,FallbackValue=170}"
-                    Height="{Binding OuterDiameter,FallbackValue=170}"
+                    Width="{Binding OuterDiameter}"
+                    Height="{Binding OuterDiameter}"
                     Background="{Binding BackgroundColor, 
                     Converter={local:BackGroundColorConverter}}"
                     CornerRadius="{Binding RelativeSource={RelativeSource self}, 
@@ -144,8 +144,8 @@
                     VerticalAlignment="Center"
                     />            
                 <Border 
-                    Width="{Binding InnerDiameter,FallbackValue=170}"
-                    Height="{Binding InnerDiameter,FallbackValue=170}"
+                    Width="{Binding InnerDiameter}"
+                    Height="{Binding InnerDiameter}"
                     Background="Black"
                     CornerRadius="{Binding RelativeSource={RelativeSource self}, 
                     Path=ActualWidth, 
@@ -180,11 +180,25 @@
                             />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:BaseArcRadialSegmentViewModel}">
                         <local:RadialSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
+
+                    <DataTemplate DataType="{x:Type local:TextOnlyViewModel}">
+                        <local:RadialTextSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:IconOnlyViewModel}">
+                        <local:RadialTextSegmentControl 
+                            FontFamily="{StaticResource FontAwesome}"
+                            Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:RotatableRectangleViewModel}">
+                        <local:RotatableRectangleControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+                </ItemsControl.Resources>
 
 
             </ItemsControl>
@@ -193,7 +207,6 @@
             <!-- Annotations -->
             <ItemsControl 
                 DataContext="{Binding MainBadges}"
-                Grid.Row="1"
                 ItemsSource="{Binding RadialGraphicSegments}">
 
                 <ItemsControl.ItemsPanel>

@@ -38,7 +38,7 @@ namespace BaseWpfCore
                 Width = 20,
                 Left = this.childLeft,
                 Top = this.childTop,
-                Text = "00",
+                Text = "20",
             };
 
             this.RadialGraphicSegments.Add(text);  

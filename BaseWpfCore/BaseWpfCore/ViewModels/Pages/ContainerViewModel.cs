@@ -359,6 +359,7 @@ namespace BaseWpfCore
             /// NOTE: It was replaced with two border with appropriate sizes
             //AddWhiteOutsideRingToBackground();
 
+            //// NOTE: Testing the shortacting line
             var shortActing = new ArcGradialDottedLineWithTextViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
@@ -377,12 +378,16 @@ namespace BaseWpfCore
             MainBadges.AddGraphics(shortActing);
 
 
-            ///// add radar graphic to background
-            //AddRadarGraphicToBackground();
+            /// add radar graphic to background
+            AddRadarGraphicToBackground();
 
-            ///// add foreground stuff to MainBadges
-            //AddForgroundGraphicStuff();
+            /// Add the hours annotation to the outside circle
+            AddHoursToBackground();
+
+            /// add foreground stuff to MainBadges
+            AddForgroundGraphicStuff();
         }
+
 
         ///
         /// Method to: Add the white ring to be used under the badges
@@ -492,6 +497,27 @@ namespace BaseWpfCore
 
             /// add the complete radar graphic to the background
             BackGround.AddGraphics(RadarGraphic);
+        }
+
+        /// <summary>
+        /// Add the hours annotations 
+        /// depends upon selecting am or pm from here
+        /// </summary>
+        private void AddHoursToBackground()
+        {
+            var hours = new HourContainerViewModel()
+            {
+                AMPM = AMPMEnum.PM,
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                GraphicsColor = BadgeColor.White,
+
+                OuterRadius = this.OuterDiameter / 2 + 12,
+            };
+
+            hours.PopulateRadialGraphicSegmentsProperty();
+
+            BackGround.AddGraphics(hours);
         }
 
         ///

@@ -23,6 +23,7 @@
                                 Margin="0 -4 0 0"
                                 Width="18"
                                 Height="15"
+                                TextAlignment="Center"
                                 FontWeight="Light"
                                 FontFamily="{TemplateBinding FontFamily}"
                                 Foreground="{TemplateBinding Background}"
