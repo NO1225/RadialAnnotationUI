@@ -7,11 +7,9 @@ namespace BaseWpfCore
     public enum ExersizeQualityEnum
     {
         MaximumIntensity = 5,
-         HighIntensity = 4,
+        HighIntensity = 4,
         MediumIntensity = 3,
         LowIntensity = 2,
         MinimumIntensity = 1,
-
-
     }
 }

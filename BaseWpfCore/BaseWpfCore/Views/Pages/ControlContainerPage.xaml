@@ -185,12 +185,11 @@
                             />
                     </Style>
                 </ItemsControl.ItemContainerStyle>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:BaseRadialGraphicSegmentViewModel}">
                         <local:AnnotationControl Background="{Binding BadgeColor, Converter={local:BackGroundColorConverter}}" />
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-
+                </ItemsControl.Resources>
 
             </ItemsControl>
         </Grid>

@@ -717,16 +717,6 @@ namespace BaseWpfCore
         }
 
         /// <summary>
-        /// converts the angle from a double to a radian
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <returns></returns>
-        private double DegreeToRadian(double angle)
-        {
-            return Math.PI * angle / 180.0;
-        }
-
-        /// <summary>
         /// iterates through the User Recordings and populates the individual time segments 
         /// with glucose readings, background colors (depending on glucose reading), carb
         /// intake readings, 
