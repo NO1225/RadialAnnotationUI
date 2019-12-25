@@ -7,16 +7,16 @@ using System.Windows;
 
 namespace BaseWpfCore
 {
-    public class ArcLineWithTextViewModel : BaseRadialGraphicViewModel
+    public class ArcGradialDottedLineWithTextViewModel : BaseRadialGraphicViewModel
     {
-        public ArcLineWithTextViewModel()
+        public ArcGradialDottedLineWithTextViewModel()
         {
-            NumberOfGroups = 1;
+            NumberOfGroups = 3;
 
             // TODO:
             // This should be 1 if it's doesn't exceed the 180 degree, otherwise, 2,
             // To be used in short and long acting, it's expected to pass 180 degree
-            NumberOfChildrenInGroup = 2;
+            NumberOfChildrenInGroup = 3;
 
             ChildClearance = 0;
             GroupClearance = 0;
@@ -83,7 +83,7 @@ namespace BaseWpfCore
             CalculateDimension();
 
             // Giving values to the annotation, a minute for every 6 degrees 
-            for (double i = FullAngleFrom; i < FullAngleTo; i += groupAngleSpan + 2 * GroupClearance)
+            for (double i = FullAngleFrom; i < FullAngleFrom+ (FullAngleTo-FullAngleFrom)/3; i += groupAngleSpan + 2 * GroupClearance)
             {
                 for (double j = i; j - (i + groupAngleSpan) < -.001; j += childAngleSpan + 2 * ChildClearance)
                 {
@@ -107,6 +107,63 @@ namespace BaseWpfCore
                 }
             }
 
+            ChildClearance = 1;
+
+            CalculateDimension();
+
+            // Giving values to the annotation, a minute for every 6 degrees 
+            for (double i = FullAngleFrom + (FullAngleTo - FullAngleFrom) / 3; i <  FullAngleFrom + 2 * (FullAngleTo - FullAngleFrom) / 3; i += groupAngleSpan + 2 * GroupClearance)
+            {
+                for (double j = i; j - (i + groupAngleSpan) < -.001; j += childAngleSpan + 2 * ChildClearance)
+                {
+                    // Todo: change graphic color below for badge color
+                    RadialGraphicSegments.Add(
+                        new BaseArcRadialSegmentViewModel(
+                            angle: j + childAngleSpan / 2 + ChildClearance,
+                            //text: (j / 6).ToString(),
+                            text: null,
+                            childWidth,
+                            childHeight,
+                            childCenterX,
+                            childCenterY,
+                            childLeft,
+                            childTop,
+                            childPoints,
+                            childSizes,
+                            GraphicsColor
+                            )
+                        );
+                }
+            }
+            
+            ChildClearance = 2;
+
+            CalculateDimension();
+
+            // Giving values to the annotation, a minute for every 6 degrees 
+            for (double i = FullAngleFrom + 2 * (FullAngleTo - FullAngleFrom) / 3; i < FullAngleTo; i += groupAngleSpan + 2 * GroupClearance)
+            {
+                for (double j = i; j - (i + groupAngleSpan) < -.001; j += childAngleSpan + 2 * ChildClearance)
+                {
+                    // Todo: change graphic color below for badge color
+                    RadialGraphicSegments.Add(
+                        new BaseArcRadialSegmentViewModel(
+                            angle: j + childAngleSpan / 2 + ChildClearance,
+                            //text: (j / 6).ToString(),
+                            text: null,
+                            childWidth,
+                            childHeight,
+                            childCenterX,
+                            childCenterY,
+                            childLeft,
+                            childTop,
+                            childPoints,
+                            childSizes,
+                            GraphicsColor
+                            )
+                        );
+                }
+            }
         }
 
         private void CalculateDimension()

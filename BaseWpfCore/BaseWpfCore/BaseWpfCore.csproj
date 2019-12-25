@@ -28,16 +28,4 @@
     <Folder Include="Views\Controls\PopUps\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Views\Controls\Segments\RadialIconSegmentControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\Controls\Segments\RadialIconSegmentControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
 </Project>

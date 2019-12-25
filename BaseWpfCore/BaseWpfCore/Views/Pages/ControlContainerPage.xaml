@@ -206,7 +206,7 @@
             each other... ???? I guess ... except they are on different grid rows.  ??? wtf?-->
             <!-- Annotations -->
             <ItemsControl 
-                DataContext="{Binding MainBadges}"
+                DataContext="{Binding ForeGround}"
                 ItemsSource="{Binding RadialGraphicSegments}">
 
                 <ItemsControl.ItemsPanel>

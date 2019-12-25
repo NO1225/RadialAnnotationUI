@@ -22,7 +22,7 @@
                             <TextBlock 
                                 Margin="0 -4 0 0"
                                 Width="18"
-                                Height="15"
+                                Height="20"
                                 TextAlignment="Center"
                                 FontWeight="Light"
                                 FontFamily="{TemplateBinding FontFamily}"

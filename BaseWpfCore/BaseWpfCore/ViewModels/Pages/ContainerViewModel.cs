@@ -118,7 +118,7 @@ namespace BaseWpfCore
         /// Todo: This isn't being used yet, it is converted
         /// back to MainBadges currently at the end of the refresh() method
         /// </summary>
-        public ForegroundRadialGraphicViewModel ForeGround { get; set; }
+        public BaseRadialGraphicViewModel ForeGround { get; set; }
 
         /// <summary>
         /// The radar image for the background
@@ -292,6 +292,8 @@ namespace BaseWpfCore
             /// Set the current date to show to one day prior
             CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
 
+            /// Calls the refresh method to generate the infographic
+            Refresh();
         }
 
         /// <summary>
@@ -318,6 +320,8 @@ namespace BaseWpfCore
             /// set the current date to show to one day in the future
             CurrentDateToShow = CurrentDateToShow.AddDays(1);
 
+            /// Calls the refresh method to generate the infographic
+            Refresh();
         }
 
         /// <summary>
@@ -502,7 +506,7 @@ namespace BaseWpfCore
             /// Create Foreground Graphics
             /// ToDo: this isn't used. I convert it back to a MainBadges
             /// 
-            ForeGround = new ForegroundRadialGraphicViewModel();
+            ForeGround = new BaseRadialGraphicViewModel();
 
             /// Add the containers for the glucose and carb intake Recordings
             MainBadges = new BaseRadialGraphicViewModel()
@@ -527,6 +531,77 @@ namespace BaseWpfCore
             /// to this 12 hour time period
             PopulateBadgesWithGlucoseRecordings(MainBadges);
 
+            /// Adding the badges to the forground
+            ForeGround.AddGraphics(MainBadges);
+
+            /// Create exercizes according to the data
+            CreateExersizeAndPapulateWithData();
+
+            /// NOTE: Duplicate populate the pieces to build the graphic
+            //PopulateBadgesWithGlucoseRecordings(MainBadges);
+
+            /// call the method to add the short term insulin arcs to the 
+            /// foreground
+            CreateShortTermInsulinArcs();
+
+            /// Call the method to add the long term insulin arcs to the foreground
+            CreateLongTermInsulinArcs();
+
+            /// add main badges, short and long term insulin
+            /// graphics to main foreground graphic
+            //ForeGround.AddGraphics(MainBadges);
+            //ForeGround.AddGraphics(LongActings);
+            //ForeGround.AddGraphics(MinimumIntensityExersizeArcs);
+            //ForeGround.AddGraphics(LowIntensityExersizeArcs);
+            //ForeGround.AddGraphics(MediumIntensityExersizeArcs);
+            //ForeGround.AddGraphics(HighIntensityExersizeArcs);
+            //ForeGround.AddGraphics(MaximumIntensityExersizeArcs);
+
+
+            ///
+            /// Start the clock arm graphic added to the infographic
+            /// 
+            var mainNeedle = new PizzaSliceFilledViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                OuterRadius = 120,
+                FullAngleFrom = -1,
+                FullAngleTo = 1,
+                GraphicsColor = BadgeColor.White,
+            };
+
+            /// populate the pieces to build the graphic
+            mainNeedle.PopulateRadialGraphicSegmentsProperty();
+
+            /// Add the clock arm needle graphic to the foreground
+            ForeGround.RadialGraphicSegments.Add(mainNeedle.RadialGraphicSegments.First());
+
+            ///
+            /// Start the solid white circle in the middle, added to the infographic
+            /// 
+            var centerCircle = new CircleFullFilledViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                OuterRadius = 10,
+                GraphicsColor = BadgeColor.White,
+            };
+
+            /// populate the pieces to build the graphic
+            centerCircle.PopulateRadialGraphicSegmentsProperty();
+
+            /// Add the solid white circle in the middle to the foreground
+            ForeGround.AddGraphics(centerCircle);
+
+            /// TODO: lol, then I just change the foreground back into mainBadges...
+            /// needs to be changed
+            //MainBadges = ForeGround;
+
+        }
+
+        private void CreateExersizeAndPapulateWithData()
+        {
             /// ************************************************************
             /// ***************** Adding the exersize arcs *****************
             /// ************************************************************
@@ -645,100 +720,8 @@ namespace BaseWpfCore
             /// add the users exersize to the infographic
             /// to this 12 hour time period
             PopulateBadgesWithExersizeRecordings(MaximumIntensityExersizeArcs, ExersizeQualityEnum.MaximumIntensity);
-
-            ///// TODO: this needs to go
-            ///// Generate random glucose levels, carb intake levels
-            ///// and colors for the container fill
-            //var rand = new Random();
-
-            //MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
-            //{
-            //    a.Color = (BadgeColor)rand.Next(2, 7);
-            //    a.GlucoseLevel = ((int)a.Color).ToString("F1");
-            //    a.CarbAmount = ((int)a.Color).ToString();
-            //}
-            //);
-
-            /// populate the pieces to build the graphic
-            //PopulateBadgesWithGlucoseRecordings(MainBadges);
-
-            /// call the method to add the short term insulin arcs to the 
-            /// foreground
-            //CreateShortTermInsulinArcs();
-
-            ///
-            /// Start the Long Acting Lines added to the infographic
-            /// 
-            LongActings = new BaseRadialGraphicViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 1,
-                NumberOfChildrenInGroup = 2,
-                ChildClearance = 0,
-                GroupClearance = 0,
-                InnerRadius = 45,
-                OuterRadius = 48,
-                FullAngleFrom = 5,
-                FullAngleTo = 355,
-                GraphicsColor = BadgeColor.White,
-            };
-
-            /// populate the pieces to build the graphic
-            LongActings.PopulateRadialGraphicSegmentsProperty();
-
-            /// add main badges, short and long term insulin
-            /// graphics to main foreground graphic
-            ForeGround.AddGraphics(MainBadges);
-            ForeGround.AddGraphics(LongActings);
-            ForeGround.AddGraphics(MinimumIntensityExersizeArcs);
-            ForeGround.AddGraphics(LowIntensityExersizeArcs);
-            ForeGround.AddGraphics(MediumIntensityExersizeArcs);
-            ForeGround.AddGraphics(HighIntensityExersizeArcs);
-            ForeGround.AddGraphics(MaximumIntensityExersizeArcs);
-
-
-            ///
-            /// Start the clock arm graphic added to the infographic
-            /// 
-            var mainNeedle = new PizzaSliceFilledViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                OuterRadius = 120,
-                FullAngleFrom = -1,
-                FullAngleTo = 1,
-                GraphicsColor = BadgeColor.White,
-            };
-
-            /// populate the pieces to build the graphic
-            mainNeedle.PopulateRadialGraphicSegmentsProperty();
-
-            /// Add the clock arm needle graphic to the foreground
-            ForeGround.RadialGraphicSegments.Add(mainNeedle.RadialGraphicSegments.First());
-
-            ///
-            /// Start the solid white circle in the middle, added to the infographic
-            /// 
-            var centerCircle = new CircleFullFilledViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                OuterRadius = 10,
-                GraphicsColor = BadgeColor.White,
-            };
-
-            /// populate the pieces to build the graphic
-            centerCircle.PopulateRadialGraphicSegmentsProperty();
-
-            /// Add the solid white circle in the middle to the foreground
-            ForeGround.AddGraphics(centerCircle);
-
-            /// TODO: lol, then I just change the foreground back into mainBadges...
-            /// needs to be changed
-            MainBadges = ForeGround;
-
         }
+
 
         /// <summary>
         /// iterates through the User Recordings and populates the individual time segments 
@@ -939,25 +922,26 @@ namespace BaseWpfCore
                 if (insulinRecording.StartTime.Date == CurrentDateToShow.Date)
                 {
 
+                    var from = insulinRecording.StartTime.Hour%12 * 30;
+
+                    var to = from + insulinRecording.Duration.Hours%12 * 30;
+
                     //// NOTE: Testing the shortacting line
-                    var shortActing = new ArcGradialDottedLineWithTextViewModel()
+                    ShortActings = new ArcGradialDottedLineWithTextViewModel()
                     {
                         ContainerHeight = this.ContainerHeight,
                         ContainerWidth = this.ContainerWidth,
-                        FullAngleTo = insulinRecording.Duration.TotalMinutes * 0.5,
-                        FullAngleFrom = insulinRecording.StartTime.Hour * 30,
+                        FullAngleTo = to,
+                        FullAngleFrom = from,
                         GraphicsColor = BadgeColor.White,
-                        InnerRadius = 60,
-                        OuterRadius = 63,
+                        InnerRadius = 80,
+                        OuterRadius = 83,
                         Amount = insulinRecording.Amount.ToString(),
                     };
 
-                    shortActing.PopulateRadialGraphicSegmentsProperty();
+                    ShortActings.PopulateRadialGraphicSegmentsProperty();
 
-                    MainBadges = new BaseRadialGraphicViewModel();
-
-                    MainBadges.AddGraphics(shortActing);
-
+                    ForeGround.AddGraphics(ShortActings);
 
                     return;
 
@@ -1037,6 +1021,31 @@ namespace BaseWpfCore
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// method to create a long arc in each time segment that will make up a long
+        /// arc that displays the insulin in the system.  
+        /// </summary>
+        private void CreateLongTermInsulinArcs()
+        {
+
+            //// NOTE: Testing the shortacting line
+            LongActings = new ArcLineWithTextViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                FullAngleTo = 360,
+                FullAngleFrom = 0,
+                GraphicsColor = BadgeColor.White,
+                InnerRadius = 40,
+                OuterRadius = 43,
+                Amount = "20",
+            };
+
+            LongActings.PopulateRadialGraphicSegmentsProperty();
+
+            ForeGround.AddGraphics(LongActings);
         }
     }
 

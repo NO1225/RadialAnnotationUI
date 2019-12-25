@@ -31,7 +31,8 @@ namespace BaseWpfCore
             };
 
             if (AMPM == AMPMEnum.PM)
-                hours.ForEach(h => h += 12);
+                for (int j = 0; j < hours.Count; j++)
+                    hours[j] += 12;
 
             foreach (var hour in hours)
             {
