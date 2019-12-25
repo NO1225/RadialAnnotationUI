@@ -126,6 +126,34 @@
             Grid.Row="2">
 
             <!-- BackGround -->
+
+            <Grid>
+                <Border 
+                    Width="{Binding OuterDiameter,FallbackValue=170}"
+                    Height="{Binding OuterDiameter,FallbackValue=170}"
+                    Background="{Binding BackgroundColor, 
+                    Converter={local:BackGroundColorConverter}}"
+                    CornerRadius="{Binding RelativeSource={RelativeSource self}, 
+                    Path=ActualWidth, 
+                    Converter={local:MultiplyConverter},
+                    ConverterParameter=0.5}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    />            
+                <Border 
+                    Width="{Binding InnerDiameter,FallbackValue=170}"
+                    Height="{Binding InnerDiameter,FallbackValue=170}"
+                    Background="Black"
+                    CornerRadius="{Binding RelativeSource={RelativeSource self}, 
+                    Path=ActualWidth, 
+                    Converter={local:MultiplyConverter},
+                    ConverterParameter=0.5}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    />
+
+            </Grid>
+            
             <ItemsControl 
                 DataContext="{Binding BackGround}"
                 ItemsSource="{Binding RadialGraphicSegments}">
@@ -151,13 +179,12 @@
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <local:AnnotationControl Background="{Binding BadgeColor, Converter={local:BackGroundColorConverter}}" />
+                        <local:RadialSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
 
             </ItemsControl>
-
             <!-- Second Items control on the same graphic... I like it... they must overlap
             each other... ???? I guess ... except they are on different grid rows.  ??? wtf?-->
             <!-- Annotations -->
@@ -186,8 +213,16 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.Resources>
-                    <DataTemplate DataType="{x:Type local:BaseRadialGraphicSegmentViewModel}">
-                        <local:AnnotationControl Background="{Binding BadgeColor, Converter={local:BackGroundColorConverter}}" />
+                    <DataTemplate DataType="{x:Type local:BaseArcRadialSegmentViewModel}">
+                        <local:RadialSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type local:TextOnlyViewModel}">
+                        <local:RadialTextSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>        
+                    
+                    <DataTemplate DataType="{x:Type local:RotatableRectangleViewModel}">
+                        <local:RotatableRectangleControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
                     </DataTemplate>
                 </ItemsControl.Resources>
 

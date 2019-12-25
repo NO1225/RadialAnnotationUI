@@ -12,13 +12,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BaseWpfCore
-{
+{ 
     /// <summary>
-    /// Interaction logic for AnnotationControl.xaml
+    /// Interaction logic for RadialTextSegmentControl.xaml
     /// </summary>
-    public partial class AnnotationControl : UserControl
+    public partial class RadialTextSegmentControl : UserControl
     {
-        public AnnotationControl()
+        public RadialTextSegmentControl()
         {
             InitializeComponent();
         }

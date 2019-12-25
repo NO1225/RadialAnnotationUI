@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BaseWpfCore
@@ -17,6 +18,28 @@ namespace BaseWpfCore
 
             ChildClearance = 0;
             GroupClearance = 0;
+        }
+
+        private double textSpan = 20;
+
+        public override void PopulateRadialGraphicSegmentsProperty()
+        {
+            base.PopulateRadialGraphicSegmentsProperty();
+
+            var text = new TextOnlyViewModel()
+            {
+                Angle = this.FullAngleFrom - textSpan / 2,
+                CenterX = this.childCenterX,
+                CenterY = this.childCenterY,
+                Color = this.GraphicsColor,
+                Height = 20,
+                Width = 20,
+                Left = this.childLeft,
+                Top = this.childTop,
+                Text = "00",
+            };
+
+            this.RadialGraphicSegments.Add(text);
         }
     }
 }

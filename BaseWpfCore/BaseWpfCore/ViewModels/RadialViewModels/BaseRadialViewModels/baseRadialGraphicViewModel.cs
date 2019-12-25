@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace BaseWpfCore
 {
-    public class BaseRadialGraphicViewModel : BaseViewModel
+    public class BaseRadialGraphicViewModel : BaseGraphicViewModel
     {
 
         #region Public Properties
@@ -16,49 +16,10 @@ namespace BaseWpfCore
         /// <summary>
         /// The annotation around the handle
         /// </summary>
-        public ObservableCollection<BaseRadialGraphicSegmentViewModel> RadialGraphicSegments { get; set; }
-
-        public double ContainerWidth { get; set; } = 400;
-
-        public double ContainerHeight { get; set; } = 400;
-
-        public double OuterRadius { get; set; } = 170;
-
-        public double InnerRadius { get; set; } = 120;
-
-        public double FullAngleFrom { get; set; } = 0;
-
-        public double FullAngleTo { get; set; } = 360;
-
-        public int NumberOfGroups { get; set; } = 12;
-
-        public double GroupClearance { get; set; } = 1;
-
-        public double ChildClearance { get; set; } = 0;
-
-        public int NumberOfChildrenInGroup { get; set; } = 5;
-
-        public BadgeColor GraphicsColor { get; set; }
 
         #endregion
 
         #region Private Members
-
-        private double groupAngleSpan;
-
-        private double childAngleSpan;
-
-        private double childWidth;
-
-        private double childHeight;
-
-        private double childCenterX;
-
-        private double childCenterY;
-
-        private double childLeft;
-
-        private double childTop;
 
         private ObservableCollection<Point> childPoints;
 
@@ -95,7 +56,7 @@ namespace BaseWpfCore
 
         #region Helping Methods
 
-        public void PopulateRadialGraphicSegmentsProperty()
+        public virtual void PopulateRadialGraphicSegmentsProperty()
         {
             // Initiating the annotation
             RadialGraphicSegments = new ObservableCollection<BaseRadialGraphicSegmentViewModel>();
@@ -156,7 +117,7 @@ namespace BaseWpfCore
                 {
                     // Todo: change graphic color below for badge color
                     RadialGraphicSegments.Add(
-                        new BaseRadialGraphicSegmentViewModel(
+                        new BaseArcRadialSegmentViewModel(
                             angle: j + childAngleSpan / 2 + ChildClearance,
                             //text: (j / 6).ToString(),
                             text: null,

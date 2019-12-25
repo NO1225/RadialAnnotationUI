@@ -177,9 +177,15 @@ namespace BaseWpfCore
 
         public double RadarDiameter { get; set; } = 120 * 2;
 
+        public double OuterDiameter { get; set; } = 169 * 2;
+
+        public double InnerDiameter { get; set; } = 121 * 2;
+
         public double ContainerWidth { get; set; } = 400;
 
         public double ContainerHeight { get; set; } = 400;
+
+        public BadgeColor BackgroundColor { get; set; } = BadgeColor.Yellow;
 
         public double RadarLeft { get; set; } = 50;
 
@@ -296,7 +302,6 @@ namespace BaseWpfCore
             Refresh();
         }
 
-
         /// <summary>
         /// change the infographic to 12 hours forward in time
         /// </summary>
@@ -351,7 +356,8 @@ namespace BaseWpfCore
             BackGround = new BackgroundRadialGraphicViewModel();
 
             /// Add outside ring to background
-            AddWhiteOutsideRingToBackground();
+            /// NOTE: It was replaced with two border with appropriate sizes
+            //AddWhiteOutsideRingToBackground();
 
             /// add radar graphic to background
             AddRadarGraphicToBackground();
@@ -623,18 +629,18 @@ namespace BaseWpfCore
             /// to this 12 hour time period
             PopulateBadgesWithExersizeRecordings(MaximumIntensityExersizeArcs, ExersizeQualityEnum.MaximumIntensity);
 
-            /// TODO: this needs to go
-            /// Generate random glucose levels, carb intake levels
-            /// and colors for the container fill
-            var rand = new Random();
+            ///// TODO: this needs to go
+            ///// Generate random glucose levels, carb intake levels
+            ///// and colors for the container fill
+            //var rand = new Random();
 
-            MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
-            {
-                a.BadgeColor = (BadgeColor)rand.Next(2, 7);
-                a.GlucoseLevel = ((int)a.BadgeColor).ToString("F1");
-                a.CarbAmount = ((int)a.BadgeColor).ToString();
-            }
-            );
+            //MainBadges.RadialGraphicSegments.Where(a => a.Angle > 30).ToList().ForEach(a =>
+            //{
+            //    a.Color = (BadgeColor)rand.Next(2, 7);
+            //    a.GlucoseLevel = ((int)a.Color).ToString("F1");
+            //    a.CarbAmount = ((int)a.Color).ToString();
+            //}
+            //);
 
             /// populate the pieces to build the graphic
             PopulateBadgesWithGlucoseRecordings(MainBadges);
@@ -714,6 +720,7 @@ namespace BaseWpfCore
             /// TODO: lol, then I just change the foreground back into mainBadges...
             /// needs to be changed
             MainBadges = ForeGround;
+
         }
 
         /// <summary>
@@ -737,7 +744,7 @@ namespace BaseWpfCore
             var mostRecentGlucoseBackgroundColor = BadgeColor.Black;
 
             /// iterate through all the time segments currently being shown on the infographic
-            foreach (BaseRadialGraphicSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
+            foreach (BaseArcRadialSegmentViewModel timeSegment in mainBadges.RadialGraphicSegments)
             {
                 /// set the glucose match flag to false
                 var glucoseMatch = false;
@@ -772,14 +779,14 @@ namespace BaseWpfCore
                             /// 4 if/else statements to set the background color of the time segment
                             /// depending on the glucose level reading... ToDO: This should be somewhere 
                             /// else, maybe in a settings page for a particular user
-                            if (gl < 5) { timeSegment.BadgeColor = BadgeColor.White; }
-                            else if (gl < 8) { timeSegment.BadgeColor = BadgeColor.Blue; }
-                            else if (gl < 11) { timeSegment.BadgeColor = BadgeColor.Pink; }
-                            else { timeSegment.BadgeColor = BadgeColor.Red; }
+                            if (gl < 5) { timeSegment.Color = BadgeColor.White; }
+                            else if (gl < 8) { timeSegment.Color = BadgeColor.Blue; }
+                            else if (gl < 11) { timeSegment.Color = BadgeColor.Pink; }
+                            else { timeSegment.Color = BadgeColor.Red; }
 
                             /// change the background color for all future time segments to this color.
                             /// it will stay this way until we find another recording.
-                            mostRecentGlucoseBackgroundColor = timeSegment.BadgeColor;
+                            mostRecentGlucoseBackgroundColor = timeSegment.Color;
                         }
                     }
                 }
@@ -787,7 +794,7 @@ namespace BaseWpfCore
                 if (!glucoseMatch)
                 {
                     /// set the background color of the time segment to the most recent one
-                    timeSegment.BadgeColor = mostRecentGlucoseBackgroundColor;
+                    timeSegment.Color = mostRecentGlucoseBackgroundColor;
 
                     /// set the text of the time segment to nothing, there wasn't a reading.
                     timeSegment.GlucoseLevel = "";
@@ -853,7 +860,7 @@ namespace BaseWpfCore
             int starttime = InfographicStartTime.Hour * 60;
 
             /// iterate through all the time segments currently being shown on the infographic
-            foreach (BaseRadialGraphicSegmentViewModel timeSegment in exersizeArcs.RadialGraphicSegments)
+            foreach (BaseArcRadialSegmentViewModel timeSegment in exersizeArcs.RadialGraphicSegments)
             {
                 /// set the glucose match flag to false
                 var exersizeMatch = false;
@@ -887,7 +894,7 @@ namespace BaseWpfCore
                             {
                                 /// change the color from black to lime green to indicate 
                                 /// that there is an exersize property in this time segment
-                                timeSegment.BadgeColor = BadgeColor.LimeGreen;
+                                timeSegment.Color = BadgeColor.LimeGreen;
                             }
                         }
                     }
