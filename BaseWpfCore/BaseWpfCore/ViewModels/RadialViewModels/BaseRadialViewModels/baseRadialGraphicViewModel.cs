@@ -41,7 +41,9 @@ namespace BaseWpfCore
             PopulateRadialGraphicSegmentsPropertyCommand = 
                 new RelayCommand(PopulateRadialGraphicSegmentsProperty);
 
-            PopulateRadialGraphicSegmentsProperty();
+            RadialGraphicSegments = new ObservableCollection<BaseRadialGraphicSegmentViewModel>();
+
+            //PopulateRadialGraphicSegmentsProperty();
         }
 
         #endregion
@@ -63,11 +65,17 @@ namespace BaseWpfCore
 
             /// The number of degrees each group will extend through after subtracting the
             /// group clearance before and after the group
-            groupAngleSpan = ((FullAngleTo - FullAngleFrom) / NumberOfGroups) - GroupClearance * 2;
+            if (NumberOfGroups == 0)
+                groupAngleSpan = 0;
+            else
+                groupAngleSpan = ((FullAngleTo - FullAngleFrom) / NumberOfGroups) - GroupClearance * 2;
 
             /// The number of degrees each group child will exted through after subtracting 
             /// the child clearance before and after the child
-            childAngleSpan = (groupAngleSpan / NumberOfChildrenInGroup) - ChildClearance * 2;
+            if (NumberOfChildrenInGroup==0)
+                childAngleSpan = 0;
+            else
+                childAngleSpan = (groupAngleSpan / NumberOfChildrenInGroup) - ChildClearance * 2;
 
             var AdjacentLinePercentOfHypotenuse = Math.Cos(DegreeToRadian(childAngleSpan));
 
