@@ -62,6 +62,10 @@ namespace BaseWpfCore
 
                 /// I don't think this needs to be here anymore
                 else mCurrentDateToShow = DateTime.Now;
+
+
+                /// Calls the refresh method to generate the infographic
+                Refresh();
             }
         }
 
@@ -243,7 +247,14 @@ namespace BaseWpfCore
             RefreshCommand = new RelayCommand(Refresh);
 
             /// Command to toggle between AM and PM
-            ToggleAmAndPmCommand = new RelayCommand(ToggleAmAndPm);
+            ToggleAmAndPmCommand = new RelayCommand(()=> {
+
+                ToggleAmAndPm();
+
+                /// Calls the refresh method to generate the infographic
+                Refresh();
+            }
+            );
 
             /// Command to jump back 12 hours
             GoBack12HoursCommand = new RelayCommand(GoBack12Hours);
@@ -261,7 +272,7 @@ namespace BaseWpfCore
             CurrentDateToShow = DateTime.Now;
 
             /// Calls the refresh method to generate the infographic
-            Refresh();
+            //Refresh();
         }
 
         #endregion
@@ -276,11 +287,19 @@ namespace BaseWpfCore
             /// Check if it is morning, if so, then make the current day, yesterday
             if (MorningOrNight == AMPMEnum.AM)
             {
+                /// Command to toggle between AM and PM
+                ToggleAmAndPm();
+
                 CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
             }
+            else
+            {
+                /// Command to toggle between AM and PM
+                ToggleAmAndPm();
 
-            /// Command to toggle between AM and PM
-            ToggleAmAndPm();
+                /// Calls the refresh method to generate the infographic
+                Refresh();
+            }
 
         }
 
@@ -304,12 +323,20 @@ namespace BaseWpfCore
             /// Check if it is afternoon, if so, then make the current day, tomorrow
             if (MorningOrNight == AMPMEnum.PM)
             {
+                /// Command to toggle between AM and PM
+                ToggleAmAndPm();
+
                 CurrentDateToShow = CurrentDateToShow.AddDays(1);
+                
             }
-
-            /// Command to toggle between AM and PM
-            ToggleAmAndPm();
-
+            else
+            {
+                /// Command to toggle between AM and PM
+                ToggleAmAndPm();
+                
+                /// Calls the refresh method to generate the infographic
+                Refresh();
+            }
         }
 
         /// <summary>
@@ -334,8 +361,6 @@ namespace BaseWpfCore
             if (MorningOrNight == AMPMEnum.AM) { MorningOrNight = AMPMEnum.PM; }
             else { MorningOrNight = AMPMEnum.AM; }
 
-            /// Calls the refresh method to generate the infographic
-            Refresh();
         }
 
         /// <summary>
@@ -349,6 +374,12 @@ namespace BaseWpfCore
 
             /// Create a new background property
             BackGround = new BackgroundRadialGraphicViewModel();
+
+            /// 
+            /// Create Foreground Graphics
+            /// ToDo: this isn't used. I convert it back to a MainBadges
+            /// 
+            ForeGround = new BaseRadialGraphicViewModel();
 
             /// Add outside ring to background
             /// NOTE: It was replaced with two border with appropriate sizes
@@ -502,12 +533,7 @@ namespace BaseWpfCore
         /// 
         public void AddForgroundGraphicStuff()
         {
-            /// 
-            /// Create Foreground Graphics
-            /// ToDo: this isn't used. I convert it back to a MainBadges
-            /// 
-            ForeGround = new BaseRadialGraphicViewModel();
-
+            
             /// Add the containers for the glucose and carb intake Recordings
             MainBadges = new BaseRadialGraphicViewModel()
             {

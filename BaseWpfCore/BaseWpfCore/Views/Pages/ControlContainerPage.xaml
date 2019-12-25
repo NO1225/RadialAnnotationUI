@@ -49,7 +49,6 @@
             <!-- Date picker -->
             <DatePicker Grid.Column="1" Margin="5,10,0,5"
                     HorizontalAlignment="Center" 
-                         Name="datePicker1" 
                         VerticalAlignment="Top"  
                         SelectedDate="{Binding CurrentDateToShow, Mode=TwoWay}">
             </DatePicker>
