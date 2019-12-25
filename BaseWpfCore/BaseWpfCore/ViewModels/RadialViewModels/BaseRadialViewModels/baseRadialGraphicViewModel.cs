@@ -21,9 +21,9 @@ namespace BaseWpfCore
 
         #region Private Members
 
-        private ObservableCollection<Point> childPoints;
+        protected ObservableCollection<Point> childPoints;
 
-        private ObservableCollection<Size> childSizes;
+        protected ObservableCollection<Size> childSizes;
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace BaseWpfCore
             }
         }
 
-        private double DegreeToRadian(double angle)
+        protected double DegreeToRadian(double angle)
         {
             return Math.PI * angle / 180.0;
         }

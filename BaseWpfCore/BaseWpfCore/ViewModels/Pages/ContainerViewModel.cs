@@ -359,11 +359,29 @@ namespace BaseWpfCore
             /// NOTE: It was replaced with two border with appropriate sizes
             //AddWhiteOutsideRingToBackground();
 
-            /// add radar graphic to background
-            AddRadarGraphicToBackground();
+            var shortActing = new ArcGradialDottedLineWithTextViewModel()
+            {
+                ContainerHeight = this.ContainerHeight,
+                ContainerWidth = this.ContainerWidth,
+                FullAngleTo = 120,
+                FullAngleFrom = 0,
+                GraphicsColor = BadgeColor.White,
+                InnerRadius = 60,
+                OuterRadius = 63,
+            };
 
-            /// add foreground stuff to MainBadges
-            AddForgroundGraphicStuff();
+            shortActing.PopulateRadialGraphicSegmentsProperty();
+
+            MainBadges = new BaseRadialGraphicViewModel();
+
+            MainBadges.AddGraphics(shortActing);
+
+
+            ///// add radar graphic to background
+            //AddRadarGraphicToBackground();
+
+            ///// add foreground stuff to MainBadges
+            //AddForgroundGraphicStuff();
         }
 
         ///

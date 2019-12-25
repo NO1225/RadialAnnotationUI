@@ -13,6 +13,5 @@
             CurrentPage="{Binding CurrentPage, 
             Converter={local:ApplicationPageValueConverter}, 
             UpdateSourceTrigger=PropertyChanged}"/>
-
     </Grid>
 </Window>

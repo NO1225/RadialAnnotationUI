@@ -127,7 +127,10 @@
 
             <!-- BackGround -->
 
-            <Grid>
+            <Grid
+                MinWidth="{Binding ContainerWidth}"
+                MinHeight="{Binding ContainerHeight}"
+                >
                 <Border 
                     Width="{Binding OuterDiameter,FallbackValue=170}"
                     Height="{Binding OuterDiameter,FallbackValue=170}"
@@ -219,6 +222,12 @@
                     
                     <DataTemplate DataType="{x:Type local:TextOnlyViewModel}">
                         <local:RadialTextSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>           
+                    
+                    <DataTemplate DataType="{x:Type local:IconOnlyViewModel}">
+                        <local:RadialTextSegmentControl 
+                            FontFamily="{StaticResource FontAwesome}"
+                            Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
                     </DataTemplate>        
                     
                     <DataTemplate DataType="{x:Type local:RotatableRectangleViewModel}">

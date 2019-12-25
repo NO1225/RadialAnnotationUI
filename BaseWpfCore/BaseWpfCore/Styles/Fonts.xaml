@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:BaseWpfCore"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <FontFamily x:Key="OpenSansRegular" >pack://application;,,,/Fonts/#Open Sans Regular</FontFamily>
     <FontFamily x:Key="OpenSansLight" >pack://application;,,,/Fonts/#Open Sans Light</FontFamily>
     <FontFamily x:Key="OpenSansBold" >pack://application;,,,/Fonts/#Open Sans Bold</FontFamily>
     <FontFamily x:Key="FontAwesome">pack://application;,,,/Fonts/#FontAwesome</FontFamily>
+
 
     <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
         <Setter Property="FontFamily" Value="{StaticResource OpenSansRegular}"/>
