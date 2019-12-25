@@ -58,8 +58,6 @@ namespace BaseWpfCore
                     DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
                         + " " + MorningOrNight.ToString();
 
-                    /// refresh the infographic
-                    Refresh();
                 }
 
                 /// I don't think this needs to be here anymore
@@ -91,8 +89,6 @@ namespace BaseWpfCore
                 DateTimePrettyText = mCurrentDateToShow.ToString("MMM dd yyyy")
                     + " " + MorningOrNight.ToString();
 
-                /// refresh the infographic
-                Refresh();
             }
         }
 
@@ -286,8 +282,6 @@ namespace BaseWpfCore
             /// Command to toggle between AM and PM
             ToggleAmAndPm();
 
-            /// Calls the refresh method to generate the infographic
-            Refresh();
         }
 
         /// <summary>
@@ -298,8 +292,6 @@ namespace BaseWpfCore
             /// Set the current date to show to one day prior
             CurrentDateToShow = CurrentDateToShow.Subtract(new TimeSpan(24, 0, 0));
 
-            /// Calls the refresh method to generate the infographic
-            Refresh();
         }
 
         /// <summary>
@@ -316,8 +308,6 @@ namespace BaseWpfCore
             /// Command to toggle between AM and PM
             ToggleAmAndPm();
 
-            /// Calls the refresh method to generate the infographic
-            Refresh();
         }
 
         /// <summary>
@@ -328,8 +318,6 @@ namespace BaseWpfCore
             /// set the current date to show to one day in the future
             CurrentDateToShow = CurrentDateToShow.AddDays(1);
 
-            /// Calls the refresh method to generate the infographic
-            Refresh();
         }
 
         /// <summary>
@@ -341,6 +329,9 @@ namespace BaseWpfCore
 
             if (MorningOrNight == AMPMEnum.AM) { MorningOrNight = AMPMEnum.PM; }
             else { MorningOrNight = AMPMEnum.AM; }
+
+            /// Calls the refresh method to generate the infographic
+            Refresh();
         }
 
         /// <summary>
@@ -358,24 +349,6 @@ namespace BaseWpfCore
             /// Add outside ring to background
             /// NOTE: It was replaced with two border with appropriate sizes
             //AddWhiteOutsideRingToBackground();
-
-            //// NOTE: Testing the shortacting line
-            var shortActing = new ArcGradialDottedLineWithTextViewModel()
-            {
-                ContainerHeight = this.ContainerHeight,
-                ContainerWidth = this.ContainerWidth,
-                FullAngleTo = 120,
-                FullAngleFrom = 0,
-                GraphicsColor = BadgeColor.White,
-                InnerRadius = 60,
-                OuterRadius = 63,
-            };
-
-            shortActing.PopulateRadialGraphicSegmentsProperty();
-
-            MainBadges = new BaseRadialGraphicViewModel();
-
-            MainBadges.AddGraphics(shortActing);
 
 
             /// add radar graphic to background
@@ -507,7 +480,7 @@ namespace BaseWpfCore
         {
             var hours = new HourContainerViewModel()
             {
-                AMPM = AMPMEnum.PM,
+                AMPM = MorningOrNight,
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
                 GraphicsColor = BadgeColor.White,
@@ -687,11 +660,11 @@ namespace BaseWpfCore
             //);
 
             /// populate the pieces to build the graphic
-            PopulateBadgesWithGlucoseRecordings(MainBadges);
+            //PopulateBadgesWithGlucoseRecordings(MainBadges);
 
             /// call the method to add the short term insulin arcs to the 
             /// foreground
-            CreateShortTermInsulinArcs();
+            //CreateShortTermInsulinArcs();
 
             ///
             /// Start the Long Acting Lines added to the infographic
@@ -965,6 +938,29 @@ namespace BaseWpfCore
                 /// check to see if the date of the user recording matches the date of the time segment
                 if (insulinRecording.StartTime.Date == CurrentDateToShow.Date)
                 {
+
+                    //// NOTE: Testing the shortacting line
+                    var shortActing = new ArcGradialDottedLineWithTextViewModel()
+                    {
+                        ContainerHeight = this.ContainerHeight,
+                        ContainerWidth = this.ContainerWidth,
+                        FullAngleTo = insulinRecording.Duration.TotalMinutes * 0.5,
+                        FullAngleFrom = insulinRecording.StartTime.Hour * 30,
+                        GraphicsColor = BadgeColor.White,
+                        InnerRadius = 60,
+                        OuterRadius = 63,
+                        Amount = insulinRecording.Amount.ToString(),
+                    };
+
+                    shortActing.PopulateRadialGraphicSegmentsProperty();
+
+                    MainBadges = new BaseRadialGraphicViewModel();
+
+                    MainBadges.AddGraphics(shortActing);
+
+
+                    return;
+
                     /// check to see if we are in the correct am/pm time period
                     if ((insulinRecording.StartTime.Hour < 12 && MorningOrNight == AMPMEnum.AM
                         || insulinRecording.StartTime.Hour >= 12 && MorningOrNight == AMPMEnum.PM))
