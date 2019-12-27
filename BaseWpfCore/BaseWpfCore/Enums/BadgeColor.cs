@@ -23,5 +23,7 @@ namespace BaseWpfCore
         Green = 7,
 
         LimeGreen = 8,
+
+        Transperant = 9,
     }
 }

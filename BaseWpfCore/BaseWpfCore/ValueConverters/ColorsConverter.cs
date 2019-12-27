@@ -38,7 +38,8 @@ namespace BaseWpfCore
                     return new SolidColorBrush(ColorTranslator.FromHtml("#042103").ToMediaColor());
                 case BadgeColor.LimeGreen:
                     return new SolidColorBrush(ColorTranslator.FromHtml("#32CD32").ToMediaColor());
-
+                case BadgeColor.Transperant:
+                    return new SolidColorBrush(System.Windows.Media.Colors.Transparent);
                 default:
                     break;
             }
