@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,25 +20,25 @@ namespace BaseWpfCore
             switch (color)
             {
                 case BadgeColor.Black:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#000000").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#000000"));
                 case BadgeColor.White:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#ffffff").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff"));
                 case BadgeColor.Yellow:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#ffd000").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffd000"));
                 case BadgeColor.Orange:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#ff8200").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff8200"));
                 case BadgeColor.Blue:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#228cff").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#228cff"));
                 case BadgeColor.Pink:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#ff7b98").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff7b98"));
                 case BadgeColor.Red:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#ff4c00").ToMediaColor());         
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff4c00"));         
                 case BadgeColor.Green:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#042103").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#042103"));
                 case BadgeColor.LimeGreen:
-                    return new SolidColorBrush(ColorTranslator.FromHtml("#32CD32").ToMediaColor());
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#32CD32"));
                 case BadgeColor.Transperant:
-                    return new SolidColorBrush(System.Windows.Media.Colors.Transparent);
+                    return new SolidColorBrush(Colors.Transparent);
                 default:
                     break;
             }
