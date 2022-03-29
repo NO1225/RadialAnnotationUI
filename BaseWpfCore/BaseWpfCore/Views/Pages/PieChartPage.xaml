@@ -1,0 +1,181 @@
+﻿<local:BasePage x:TypeArguments="local:PieChartViewModel"  x:Class="BaseWpfCore.PieChartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BaseWpfCore"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="1000">
+
+    <!-- Main Grid for the Page -->
+    <Grid Background="Gainsboro">
+        <!-- Column Definitions-->
+        <Grid.RowDefinitions>
+            <!-- Row definitions for the date picker 
+            and the AM/PM button-->
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- container for the date picker and the AM/PM button-->
+        <Grid Grid.Row="0">
+            <!-- Column Definitions-->
+            <Grid.ColumnDefinitions>
+                <!-- textblock for date picker -->
+                <ColumnDefinition Width="*" />
+                <!-- Date picker -->
+                <ColumnDefinition Width="*" />
+                <!-- AM / PM Button -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!-- textblock for date picker -->
+            <TextBlock Grid.Column="0" HorizontalAlignment="Right"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       Text="Current Date (or pick one) : " />
+            <!-- Some code I found on the internet to have a time picker as well
+            it was on a downloaded extension "time picker" date picker extension -->
+            <!--<wpfx:DateTimePicker Height="25" HorizontalAlignment="Left" 
+                                 Margin="42,26,0,0" Name="DateTimePicker1" 
+                                 VerticalAlignment="Top" Width="250" />-->
+            <!--<Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>-->
+
+            <!-- Date picker -->
+            <DatePicker Grid.Column="1" Margin="5,10,0,5"
+                    HorizontalAlignment="Center" 
+                        VerticalAlignment="Top"  
+                        SelectedDate="{Binding CurrentDateToShow, Mode=TwoWay}">
+            </DatePicker>
+            <!--</Grid>-->
+
+            <!--TODO: I was trying to add some kind of binding from the 
+            datepicker on the page to the ContainerViewModel to update 
+            the current display date -->
+            <!--SelectedDateChanged={Binding DateChanged}"/>-->
+
+            <!--<Button Grid.Column="2" FontSize="18" FontWeight="Bold"
+                    Background="LimeGreen"
+                    Content="{Binding MorningOrNight, 
+                Converter={local:AMAndPMToButtonContentConverter}}"
+                    Command="{Binding ToggleAmAndPmCommand}"
+                    >-->
+
+            <!-- AM / PM Button -->
+            <Button Grid.Column="2" FontSize="18" FontWeight="Bold"
+                    Background="LimeGreen"
+                    Content="AM or PM"
+                    Command="{Binding ToggleAmAndPmCommand}">
+            </Button>
+        </Grid>
+
+        <!-- Horizontal container for forward and back
+        buttons and current date and AM/PM -->
+        <Grid Grid.Row="1" Background="Black" Height="50">
+            <!-- Column defs -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="5" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Button to refresh the infographic to 24 hours prior -->
+            <Button Grid.Column="1" Content="  Back 24 hrs " Background="LimeGreen"
+                    FontSize="18" Command="{Binding GoBack24HoursCommand}">
+            </Button>
+
+            <!-- Button to refresh the infographic to 12 hours prior -->
+            <Button Grid.Column="2" Content="  Back 12 hrs  " Background="LimeGreen"
+                    FontSize="18" Command="{Binding GoBack12HoursCommand}">
+            </Button>
+
+            <!-- the nice pretty text that shows the currently displayed
+            date and whether it is am or pm -->
+
+            <TextBlock Grid.Column="3" Text="{Binding DateTimePrettyText}"
+                       FontSize="25" VerticalAlignment="Center"
+                       HorizontalAlignment="Center" 
+                       Background="Beige"/>
+
+            <!-- Button to refresh the infographic to 12 hours ahead -->
+            <Button Grid.Column="4" Content="Forward 12 hrs" Background="LimeGreen"
+                    FontSize="18" Command="{Binding GoForward12HoursCommand}">
+            </Button>
+
+            <!-- Button to refresh the infographic to 24 hours ahead -->
+            <Button Grid.Column="5" Content="Forward 24 hrs" Background="LimeGreen"
+                    FontSize="18" Command="{Binding GoForward24HoursCommand}">
+            </Button>
+        </Grid>
+
+<!-- Main grid to display all of the graphic segments in the "Background" list
+        - I have no idea how this works and I haven't f'd with it... hate the name
+        just saying. -->
+        <Grid
+            Background="Black"
+            Grid.Row="2">
+
+            <!-- BackGround -->
+
+            
+            <!-- Second Items control on the same graphic... I like it... they must overlap
+            each other... ???? I guess ... except they are on different grid rows.  ??? wtf?-->
+            <!-- Annotations -->
+            <ItemsControl 
+                DataContext="{Binding ForeGround}"
+                ItemsSource="{Binding RadialGraphicSegments}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas 
+                            Width="{Binding ContainerWidth}"
+                            Height="{Binding ContainerHeight}"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter
+                            Property="Canvas.Left"
+                            Value="{Binding Left}"
+                            />
+                        <Setter
+                            Property="Canvas.Top"
+                            Value="{Binding Top}"
+                            />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type local:BaseArcRadialSegmentViewModel}">
+                        <local:RadialSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="{x:Type local:TextOnlyViewModel}">
+                        <local:RadialTextSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>           
+                    
+                    <DataTemplate DataType="{x:Type local:IconOnlyViewModel}">
+                        <local:RadialTextSegmentControl 
+                            FontFamily="{StaticResource FontAwesome}"
+                            Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>        
+                    
+                    <DataTemplate DataType="{x:Type local:RotatableRectangleViewModel}">
+                        <local:RotatableRectangleControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
+                    </DataTemplate>
+                </ItemsControl.Resources>
+
+            </ItemsControl>
+        </Grid>
+
+
+    </Grid>
+</local:BasePage>

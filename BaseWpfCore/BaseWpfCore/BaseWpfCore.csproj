@@ -28,4 +28,10 @@
     <Folder Include="Views\Controls\PopUps\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Views\Pages\PieChartPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

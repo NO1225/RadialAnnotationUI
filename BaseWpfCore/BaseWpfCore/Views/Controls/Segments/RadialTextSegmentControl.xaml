@@ -20,9 +20,8 @@
                                     Angle="{Binding Angle, FallbackValue=0}"/>
                             </Grid.RenderTransform>
                             <TextBlock 
-                                Margin="0 -4 0 0"
-                                Width="18"
-                                Height="20"
+                                x:Name="annotationText"
+                                Margin="0 0 0 0"
                                 TextAlignment="Center"
                                 FontWeight="Light"
                                 FontFamily="{TemplateBinding FontFamily}"
@@ -30,8 +29,8 @@
                                 Text="{Binding Text}">
                                 <TextBlock.RenderTransform>
                                     <RotateTransform 
-                                        CenterX="9"
-                                        CenterY="7.5"
+                                        CenterX="0"
+                                        CenterY="{Binding ElementName=annotationText, Path=ActualHeight, Converter={local:MultiplyConverter}, ConverterParameter=0.5}"
                                         Angle="{Binding TextAngle}"/>
                                 </TextBlock.RenderTransform>
                             </TextBlock>                                

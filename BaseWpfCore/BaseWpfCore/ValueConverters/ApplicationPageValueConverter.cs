@@ -18,7 +18,7 @@ namespace BaseWpfCore
             switch ((ApplicationPage)value)
             {
                 case ApplicationPage.Dashboard:
-                    return new ControlContainerPage();
+                    return new PieChartPage();
                     //return new DashboardPage();
                 
                 default:

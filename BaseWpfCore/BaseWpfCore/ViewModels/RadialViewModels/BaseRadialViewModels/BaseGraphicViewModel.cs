@@ -41,21 +41,21 @@ namespace BaseWpfCore
 
         #region Private Members
 
-        protected double groupAngleSpan;
+        internal double groupAngleSpan;
 
-        protected double childAngleSpan;
+        internal double childAngleSpan;
 
-        protected double childWidth;
+        internal double childWidth;
 
-        protected double childHeight;
+        internal double childHeight;
 
-        protected double childCenterX;
+        internal double childCenterX;
 
-        protected double childCenterY;
+        internal double childCenterY;
 
-        protected double childLeft;
+        internal double childLeft;
 
-        protected double childTop;
+        internal double childTop;
 
         #endregion
     }

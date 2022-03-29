@@ -10,20 +10,25 @@ namespace BaseWpfCore
 
         public new BadgeColor Color { get; set; } = BadgeColor.White;
 
+        public bool Horizontal { get; set; }
+
         public double TextAngle
         {
             get
             {
-                if (Angle > 90 && Angle < 270)
+                if (Angle > 0 && Angle < 180)
                 {
-                    return 180;
+                    return Horizontal? 180:270;
                 }
                 else
                 {
-                    return 0;
+                    return Horizontal ? 0 : 90;
                 }
             }
         }
+        public TextOnlyViewModel()
+        {
 
+        }
     }
 }
