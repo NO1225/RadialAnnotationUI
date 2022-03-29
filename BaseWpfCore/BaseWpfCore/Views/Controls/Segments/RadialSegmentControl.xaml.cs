@@ -14,14 +14,13 @@ using System.Windows.Shapes;
 namespace BaseWpfCore
 {
     /// <summary>
-    /// Interaction logic for ControlContainerPage.xaml
+    /// Interaction logic for AnnotationControl.xaml
     /// </summary>
-    public partial class ControlContainerPage : BasePage<ContainerViewModel>
+    public partial class RadialSegmentControl : UserControl
     {
-        public ControlContainerPage()
+        public RadialSegmentControl()
         {
             InitializeComponent();
-            
         }
     }
 }

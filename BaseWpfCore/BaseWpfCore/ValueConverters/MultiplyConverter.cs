@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseWpfCore
 {
     /// <summary>
-    /// multiply the input numirical value with the choosen parameter
+    /// Multiplies the input numerical value with the specified parameter value
     /// </summary>
     public class MultiplyConverter : BaseValueConverter<MultiplyConverter>
     {
-        public override object Convert(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var multiplyer = double.Parse(parameter.ToString());
+            // Helper method for parsing the value
+            static double GetDouble(object input) => Double.TryParse(input?.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out double output) ? output : throw new Exception($"Multiply converter failed parsing {input}");
 
-            var result = double.Parse(value.ToString());
-
-            return result * multiplyer;
-
+            return GetDouble(value) * GetDouble(parameter);
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

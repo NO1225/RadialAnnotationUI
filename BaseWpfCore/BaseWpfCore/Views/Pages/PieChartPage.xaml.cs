@@ -16,9 +16,9 @@ namespace BaseWpfCore
     /// <summary>
     /// Interaction logic for ControlContainerPage.xaml
     /// </summary>
-    public partial class ControlContainerPage : BasePage<ContainerViewModel>
+    public partial class PieChartPage : BasePage<PieChartViewModel>
     {
-        public ControlContainerPage()
+        public PieChartPage()
         {
             InitializeComponent();
             

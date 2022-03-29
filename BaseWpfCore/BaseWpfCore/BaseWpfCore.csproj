@@ -4,7 +4,16 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\FontAwesome.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\FontAwesome.ttf" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dna.Framework" Version="1.0.7.15" />
@@ -17,6 +26,12 @@
 
   <ItemGroup>
     <Folder Include="Views\Controls\PopUps\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Pages\PieChartPage.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

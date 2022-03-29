@@ -1,4 +1,4 @@
-﻿<local:BasePage x:TypeArguments="local:ContainerViewModel"  x:Class="BaseWpfCore.ControlContainerPage"
+﻿<local:BasePage x:TypeArguments="local:PieChartViewModel"  x:Class="BaseWpfCore.PieChartPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -126,81 +126,7 @@
 
             <!-- BackGround -->
 
-            <Grid
-                MinWidth="{Binding ContainerWidth}"
-                MinHeight="{Binding ContainerHeight}"
-                >
-                <Border 
-                    Width="{Binding OuterDiameter}"
-                    Height="{Binding OuterDiameter}"
-                    Background="{Binding BackgroundColor, 
-                    Converter={local:BackGroundColorConverter}}"
-                    CornerRadius="{Binding RelativeSource={RelativeSource self}, 
-                    Path=ActualWidth, 
-                    Converter={local:MultiplyConverter},
-                    ConverterParameter=0.5}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    />            
-                <Border 
-                    Width="{Binding InnerDiameter}"
-                    Height="{Binding InnerDiameter}"
-                    Background="Black"
-                    CornerRadius="{Binding RelativeSource={RelativeSource self}, 
-                    Path=ActualWidth, 
-                    Converter={local:MultiplyConverter},
-                    ConverterParameter=0.5}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    />
-
-            </Grid>
             
-            <ItemsControl 
-                DataContext="{Binding BackGround}"
-                ItemsSource="{Binding RadialGraphicSegments}">
-
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas 
-                            Width="{Binding ContainerWidth}"
-                            Height="{Binding ContainerHeight}"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter
-                            Property="Canvas.Left"
-                            Value="{Binding Left}"
-                            />
-                        <Setter
-                            Property="Canvas.Top"
-                            Value="{Binding Top}"
-                            />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ItemsControl.Resources>
-                    <DataTemplate DataType="{x:Type local:BaseArcRadialSegmentViewModel}">
-                        <local:RadialSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type local:TextOnlyViewModel}">
-                        <local:RadialTextSegmentControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type local:IconOnlyViewModel}">
-                        <local:RadialTextSegmentControl 
-                            FontFamily="{StaticResource FontAwesome}"
-                            Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type local:RotatableRectangleViewModel}">
-                        <local:RotatableRectangleControl Background="{Binding Color, Converter={local:BackGroundColorConverter}}" />
-                    </DataTemplate>
-                </ItemsControl.Resources>
-
-
-            </ItemsControl>
             <!-- Second Items control on the same graphic... I like it... they must overlap
             each other... ???? I guess ... except they are on different grid rows.  ??? wtf?-->
             <!-- Annotations -->

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace BaseWpfCore
 {
-    public class ContainerViewModel : BaseViewModel
+    public class PieChartViewModel : BaseViewModel
     {
 
         #region Private properties
@@ -232,7 +232,7 @@ namespace BaseWpfCore
 
         #region Default Constructor
 
-        public ContainerViewModel()
+        public PieChartViewModel()
         {
             /// Set the AM and PM setting to AM
             MorningOrNight = AMPMEnum.AM;
@@ -369,11 +369,11 @@ namespace BaseWpfCore
         /// </summary>
         private void Refresh()
         {
-            UserRecordings = new UserRecordingsDataModel();
+            //UserRecordings = new UserRecordingsDataModel();
 
 
-            /// Create a new background property
-            BackGround = new BackgroundRadialGraphicViewModel();
+            ///// Create a new background property
+            //BackGround = new BackgroundRadialGraphicViewModel();
 
             /// 
             /// Create Foreground Graphics
@@ -386,11 +386,11 @@ namespace BaseWpfCore
             //AddWhiteOutsideRingToBackground();
 
 
-            /// add radar graphic to background
-            AddRadarGraphicToBackground();
+            ///// add radar graphic to background
+            //AddRadarGraphicToBackground();
 
-            /// Add the hours annotation to the outside circle
-            AddHoursToBackground();
+            ///// Add the hours annotation to the outside circle
+            //AddHoursToBackground();
 
             /// add foreground stuff to MainBadges
             AddForgroundGraphicStuff();
@@ -533,21 +533,63 @@ namespace BaseWpfCore
         /// 
         public void AddForgroundGraphicStuff()
         {
-            
+
+            ///// Add the containers for the glucose and carb intake Recordings
+            //MainBadges = new BaseRadialGraphicViewModel()
+            //{
+            //    ContainerHeight = this.ContainerHeight,
+            //    ContainerWidth = this.ContainerWidth,
+            //    NumberOfGroups = 1,
+            //    NumberOfChildrenInGroup = 2,
+            //    ChildClearance = 0,
+            //    GroupClearance = 1,
+            //    InnerRadius = 120,
+            //    OuterRadius = 170,
+            //    FullAngleFrom = 0,
+            //    FullAngleTo = 90,
+            //    GraphicsColor = (BadgeColor)BadgeColor.Blue,
+            //};
+
+            ///// populate the pieces to build the graphic
+            //MainBadges.PopulateRadialGraphicSegmentsProperty();
+
+            /// add the users recordings to the infographic
+            /// to this 12 hour time period
+            //PopulateBadgesWithGlucoseRecordings(MainBadges);
+
+            /// Adding the badges to the forground
+            //ForeGround.AddGraphics(MainBadges);
             /// Add the containers for the glucose and carb intake Recordings
-            MainBadges = new BaseRadialGraphicViewModel()
+            MainBadges = new RadialPieChartViewModel()
             {
                 ContainerHeight = this.ContainerHeight,
                 ContainerWidth = this.ContainerWidth,
-                NumberOfGroups = 12,
-                NumberOfChildrenInGroup = 5,
-                ChildClearance = .2,
-                GroupClearance = 1,
-                InnerRadius = 120,
+
+                InnerRadius = 20,
                 OuterRadius = 170,
-                FullAngleFrom = 0,
-                FullAngleTo = 360,
-                GraphicsColor = (BadgeColor)BadgeColor.Blue,
+                Items = new List<RadialPieChartViewModel.RadialPieChartItemViewModel>
+                {
+                    new RadialPieChartViewModel.RadialPieChartItemViewModel
+                    {
+                        Text = "A \n 123$",
+                        Value = 123,
+                    },
+                    new RadialPieChartViewModel.RadialPieChartItemViewModel
+                    {
+                        Text = "B \n 55$",
+                        Value = 55,
+                    },
+                    new RadialPieChartViewModel.RadialPieChartItemViewModel
+                    {
+                        Text = "C \n 12$",
+                        Value = 12,
+                    },
+                    new RadialPieChartViewModel.RadialPieChartItemViewModel
+                    {
+                        Text = "C - 11$",
+                        Value = 11,
+                    },
+                }
             };
 
             /// populate the pieces to build the graphic
@@ -555,23 +597,22 @@ namespace BaseWpfCore
 
             /// add the users recordings to the infographic
             /// to this 12 hour time period
-            PopulateBadgesWithGlucoseRecordings(MainBadges);
+            //PopulateBadgesWithGlucoseRecordings(MainBadges);
 
             /// Adding the badges to the forground
             ForeGround.AddGraphics(MainBadges);
-
             /// Create exercizes according to the data
-            CreateExersizeAndPapulateWithData();
+            //CreateExersizeAndPapulateWithData();
 
             /// NOTE: Duplicate populate the pieces to build the graphic
             //PopulateBadgesWithGlucoseRecordings(MainBadges);
 
             /// call the method to add the short term insulin arcs to the 
             /// foreground
-            CreateShortTermInsulinArcs();
+            //CreateShortTermInsulinArcs();
 
             /// Call the method to add the long term insulin arcs to the foreground
-            CreateLongTermInsulinArcs();
+            //CreateLongTermInsulinArcs();
 
             /// add main badges, short and long term insulin
             /// graphics to main foreground graphic

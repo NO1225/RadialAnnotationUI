@@ -6,18 +6,12 @@ using System.Windows;
 
 namespace BaseWpfCore
 {
-    public class AnnotationViewModel
+    public class BaseArcRadialSegmentViewModel : BaseRadialGraphicSegmentViewModel
     {
         #region Public Properties
 
         #region UI
 
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public double CenterX { get; set; }
-        public double CenterY { get; set; }
-        public double Left { get; set; }
-        public double Top { get; set; }
         public ObservableCollection<Point> Points { get; set; }
         public ObservableCollection<Size> Sizes { get; set; }
 
@@ -30,14 +24,13 @@ namespace BaseWpfCore
 
         public string CarbAmount { get; set; }
 
-        /// <summary>
-        /// The angle at which this annotation should be ratated
-        /// </summary>
-        public double Angle { get; private set; }
+        public string HourText { get; set; }
 
-        public double GlucoseTextAngle { get
+        public double GlucoseTextAngle
+        {
+            get
             {
-                if(Angle>0&&Angle<180)
+                if (Angle > 0 && Angle < 180)
                 {
                     return 270;
                 }
@@ -45,12 +38,14 @@ namespace BaseWpfCore
                 {
                     return 90;
                 }
-            } 
+            }
         }
 
-        public double CarbTextAngle { get
+        public double CarbTextAngle
+        {
+            get
             {
-                if(Angle>90&&Angle<270)
+                if (Angle > 90 && Angle < 270)
                 {
                     return 180;
                 }
@@ -58,20 +53,14 @@ namespace BaseWpfCore
                 {
                     return 0;
                 }
-            } 
+            }
         }
-
-        public string ActingAmount { get; set; }
-
-        public double AcringTextAngle { get; set; }
-
-        public BadgeColor BadgeColor { get; set; } 
 
         #endregion
 
         #region Default Contructor
 
-        public AnnotationViewModel(
+        public BaseArcRadialSegmentViewModel(
             double angle,
             string text,
             double width,
@@ -94,7 +83,7 @@ namespace BaseWpfCore
             Top = top;
             Points = points;
             Sizes = sizes;
-            BadgeColor = badgeColor;
+            Color = badgeColor;
         }
 
         #endregion

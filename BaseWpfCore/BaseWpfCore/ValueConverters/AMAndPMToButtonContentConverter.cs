@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace BaseWpfCore
 {
     /// <summary>
-    /// Convert the <see cref="ApplicationPage"/> to an actual view/Page
+    /// multiply the input numirical value with the choosen parameter
     /// </summary>
-    public class ApplicationPageValueConverter : BaseValueConverter<ApplicationPageValueConverter>
+    public class AMAndPMToButtonContentConverter : BaseValueConverter<AMAndPMToButtonContentConverter>
     {
         public override object Convert(object value, Type targetType = null, object parameter = null, CultureInfo culture = null)
         {
-            switch ((ApplicationPage)value)
+            var timeofday = (AMPMEnum)value;
+
+            switch (timeofday)
             {
-                case ApplicationPage.Dashboard:
-                    return new PieChartPage();
-                    //return new DashboardPage();
+                case AMPMEnum.AM:
+                    return "Morning";
+                case AMPMEnum.PM:
+                    return "Afternoon";
                 
                 default:
-                    Debugger.Break();
-                    return null;
+                    break;
             }
+            return null;
+
+
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
